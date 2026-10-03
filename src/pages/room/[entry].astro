@@ -1,0 +1,10 @@
+---
+import RoomLayout from '../../layouts/RoomLayout.astro';
+import CreativeRoom from '../../components/CreativeRoom.astro';
+import {roomEntries} from '../../data/room';
+import {getCollection} from 'astro:content';
+export function getStaticPaths(){return roomEntries.map(entry=>({params:{entry:entry.id},props:{name:entry.name}}));}
+const articles=(await getCollection('articles',({data})=>!data.draft)).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf());
+const works=(await getCollection('works',({data})=>!data.draft)).sort((a,b)=>Number(b.data.featured)-Number(a.data.featured)||b.data.date.valueOf()-a.data.date.valueOf());
+---
+<RoomLayout title={`${Astro.props.name} · ECHO`}><CreativeRoom articles={articles} works={works}/></RoomLayout>

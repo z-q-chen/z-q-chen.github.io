@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import '../styles/room.css';
-const title = "ECHO · 创作房间";
+const {title="ECHO · 创作房间"}=Astro.props;
 const description = '戴上耳机，翻翻本子，打开电视。欢迎来 ECHO 的手绘创作房间。';
 ---
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="description" content={description}/><meta name="theme-color" content="#f6eddb"/><title>{title}</title><link rel="icon" href="/favicon.svg" type="image/svg+xml"/><link rel="canonical" href={Astro.site}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:type" content="website"/><meta property="og:url" content={Astro.site}/><meta property="og:image" content={new URL('/room/studio.webp',Astro.site)}/><link rel="alternate" type="application/rss+xml" title="ECHO 的本子" href="/feed.xml"/><link rel="preload" as="image" href="/room/studio.webp"/></head><body class="room-page"><a class="skip" href="#main">跳到房间</a><slot/></body></html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="description" content={description}/><meta name="theme-color" content="#f6eddb"/><title>{title}</title><link rel="icon" href="/favicon.svg" type="image/svg+xml"/><link rel="canonical" href={new URL(Astro.url.pathname,Astro.site)}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:type" content="website"/><meta property="og:url" content={new URL(Astro.url.pathname,Astro.site)}/><meta property="og:image" content={new URL('/room/studio.webp',Astro.site)}/><link rel="alternate" type="application/rss+xml" title="ECHO 的本子" href="/feed.xml"/><link rel="preload" as="image" href="/room/environment.webp"/></head><body class="room-page"><a class="skip" href="#main">跳到房间</a><slot/></body></html>

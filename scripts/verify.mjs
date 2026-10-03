@@ -24,7 +24,8 @@ const room=await readFile(path.join(root,'index.html'),'utf8');
 for(const entry of ['book','music','games','images','video','about','drawer']) {
  assert.ok(room.includes(`data-entry=\"${entry}\"`),`Missing room entrance: ${entry}`);
  assert.ok(room.includes(`data-channel=\"${entry}\"`),`Missing room channel: ${entry}`);
+ assert.ok(files.includes(path.join(root,`room/${entry}/index.html`)),`Missing real channel route: ${entry}`);
 }
-for(const asset of ['room/studio.webp','room/echo.webp'])assert.ok(files.includes(path.join(root,asset)),`Missing painting layer: ${asset}`);
+for(const asset of ['room/environment.webp','room/objects.webp','room/nature.webp','room/echo.webp'])assert.ok(files.includes(path.join(root,asset)),`Missing painting layer: ${asset}`);
 assert.ok(!room.includes('class=\"site-header'),'Homepage must use the room rather than traditional navigation');
-console.log('Verified all seven room entrances, matching channels and the two local artwork layers.');
+console.log('Verified all seven room entrances, matching channels and the four active local artwork layers.');
