@@ -1,0 +1,13 @@
+---
+import '../styles/global.css';
+const {title='陈正佺 · 数字实验室', description='一个持续生长的个人数字实验室。研究、项目、交互实验和开放的学习笔记。', active=''}=Astro.props;
+const nav=[['/research/','研究','research'],['/projects/','项目','projects'],['/lab/','游乐场','lab'],['/notes/','笔记','notes'],['/about/','关于','about']];
+---
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="description" content={description}/><meta name="theme-color" content="#f4f2eb"/><title>{title}</title><link rel="icon" href="/favicon.svg" type="image/svg+xml"/><link rel="canonical" href={new URL(Astro.url.pathname,Astro.site)}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:type" content="website"/><meta property="og:url" content={new URL(Astro.url.pathname,Astro.site)}/><link rel="alternate" type="application/rss+xml" title="数字实验室 · 笔记" href="/feed.xml"/></head>
+<body><a class="skip" href="#main">跳到内容</a>
+<header class="site-header wrap"><a class="brand" href="/" aria-label="陈正佺数字实验室首页"><span class="brand-mark">z<span>·</span>q</span><span>陈正佺<span class="brand-sub">DIGITAL LABORATORY</span></span></a><nav aria-label="主导航">{nav.map(([url,label,key])=><a href={url} aria-current={active===key?'page':undefined}>{label}</a>)}<a class="github-link" href="https://github.com/z-q-chen" aria-label="GitHub 主页">GitHub ↗</a></nav></header>
+<main id="main" class="wrap"><slot/></main>
+<footer class="wrap footer"><div><a class="footer-brand" href="/">z·q / 数字实验室</a><p>保持好奇，允许未完成。</p></div><div class="footer-right"><a href="/feed.xml">RSS ↗</a><a href="https://github.com/z-q-chen">GitHub ↗</a><span>© {new Date().getFullYear()} 陈正佺</span><span>南京 · Built to grow.</span></div></footer>
+</body></html>

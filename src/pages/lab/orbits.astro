@@ -1,0 +1,5 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import OrbitCanvas from '../../components/OrbitCanvas.astro';
+---
+<Layout title="轨道之间 · 游乐场" active="lab"><a class="back-link" href="/lab/">← 返回游乐场</a><header class="lab-description"><div><p class="eyebrow">EXPERIMENT 001 / GENERATIVE GEOMETRY</p><h1>轨道之间</h1><p>调慢一点，或者让更多轨道加入。观察同一组几何规则怎样留下不同的视觉节奏。</p></div><span class="pill">生成动画</span></header><OrbitCanvas large/><section class="experiment-info"><div><h2>怎么玩</h2><p>调整速度和轨道数量。暂停后仍可改变轨道数量；点击“恢复初始”回到默认构图。系统偏好减少动画时，画面默认静止，可手动播放。</p></div><div><h2>关于这组线条</h2><p>每条椭圆拥有不同的旋转角度，共享一个缓慢变化的短轴。这是一组参数化的几何动画，供观察与探索。</p></div></section></Layout>

@@ -1,0 +1,7 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Visual from '../components/Visual.astro';
+import {projects} from '../data/lab';
+---
+<Layout title="项目档案 · 陈正佺数字实验室" active="projects"><header class="page-intro"><p class="eyebrow">PROJECTS / SMALL THINGS, REAL QUESTIONS</p><h1>把想法，<span class="serif accent">做出来。</span></h1><p>原创工具、探索中的仓库与学习分叉。保留起点，也保留每个项目真实的状态。</p></header><div class="page-content"><div class="filter-bar" aria-label="项目类型筛选">{['全部','工具','研究','学习'].map((x,i)=><button data-filter={x} aria-pressed={i===0?'true':'false'}>{x}</button>)}</div><div class="project-grid">{projects.map(p=><article id={p.id} class="project-card" data-category={p.category}><Visual type={p.visual}/><div class="card-body"><div class="card-meta"><span>{p.category} / {p.status}</span><span>{p.year}</span></div><h3>{p.title}</h3><p>{p.description}</p><div class="tags">{p.tags.map(t=><span class="pill">{t}</span>)}</div><div class="detail">{p.detail}</div><a class="text-link" href={p.url}>打开 GitHub 仓库 ↗</a></div></article>)}</div><p class="muted">截至 2026-10-03 的公开资料。项目状态由人工维护，不使用星标数量推断项目质量。</p></div></Layout>
+<script>document.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b===btn)));document.querySelectorAll<HTMLElement>('[data-category]').forEach(card=>{card.hidden=btn.dataset.filter!=='全部'&&card.dataset.category!==btn.dataset.filter;});}));</script>

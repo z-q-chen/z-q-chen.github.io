@@ -1,0 +1,4 @@
+import {getCollection} from 'astro:content';
+import type {APIRoute} from 'astro';
+const escape=(s:string)=>s.replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&apos;'}[c]!));
+export const GET:APIRoute=async({site})=>{const notes=(await getCollection('notes',({data})=>!data.draft)).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf());return new Response(`<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>陈正佺 · 数字实验室</title><link>${site}</link><description>持续生长的笔记与实验</description><language>zh-CN</language>${notes.map(n=>`<item><title>${escape(n.data.title)}</title><link>${new URL(`/notes/${n.id}/`,site)}</link><guid>${new URL(`/notes/${n.id}/`,site)}</guid><description>${escape(n.data.description)}</description><pubDate>${n.data.date.toUTCString()}</pubDate></item>`).join('')}</channel></rss>`,{headers:{'Content-Type':'application/rss+xml; charset=utf-8'}});};
