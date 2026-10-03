@@ -1,86 +1,61 @@
-# ECHO · Digital Lab
+# ECHO · 创作房间
 
-个人网站：作品、文章、关于。首页呈现个人介绍、精选作品和最近文章；只发布作者确认的真实内容。旧版学习分叉、网站生成的游戏及起始文章已撤下，旧网址跳转至新栏目。
+主页是一间可以探索的动态手绘工作室。银白短发、猫耳、粉色外套的 ECHO 戴着耳机坐在桌沿；本子、唱片、魔方、画框、电视、便签和抽屉是内容入口。插画与场景动画是网站设计素材，不列为作者的作品。
 
 ## 本地使用
 
-需要 Node.js 24 和 npm：
+Node.js 24 与 npm：
 
 ```sh
 npm ci
-npm run dev
-```
-
-检查并预览：
-
-```sh
-npm run build
+ASTRO_TELEMETRY_DISABLED=1 npm run build
 npm run verify
 npm run preview
 ```
 
-## 发布文章
+开发使用 `npm run dev`。没有外部字体、动画库、统计脚本或图片服务。
 
-1. 复制 `templates/article.md` 到 `src/content/articles/你的文章名.md`。
-2. 修改标题、摘要、日期和正文。`kind` 可选：**思考、教程、开发记录、随笔**；`tags` 用于主题标签。
-3. 确认内容后把 `draft: true` 改为 `draft: false`，提交到 `main`。
+## 房间与物件
 
-文章会自动进入文章列表、首页的最近四篇、RSS 和 sitemap。文件名成为网址，已发布后尽量保持不变。模板存放在内容目录之外，不会被公开。
+- `src/components/CreativeRoom.astro`：角色分层、物件动作、内容面板、放大与返回。
+- `src/styles/room.css`：房间比例、画风、动画和移动布局。
+- `src/data/room.ts`：七个入口的位置、文案、分类及真实产品地址。
+- `public/room/studio.webp`：不含人物的房间画面。
+- `public/room/echo.webp`：保留透明度的角色层；代码拆为头部、身体和脚部。
 
-## 发布自己的成品
+点击物件后先响应并推进镜头，再显示对应内容。每个入口有可分享的地址，例如 `/#book`、`/#video`；浏览器返回、Esc 和“回房间”都可退出。首次直接打开入口网址也会显示对应内容。地图提供明确的入口列表；手机可以横向滑动或点击方向按钮。控制点最小尺寸为 44px。
 
-1. 复制 `templates/work.md` 到 `src/content/works/你的作品名.md`。
-2. 修改标题、摘要、日期与正文。`kind` 可选：**工具、项目、游戏、动画、交互实验**。
-3. `featured: true` 的作品优先显示在首页；首页最多显示三个，余下位置由最近发布的作品补充。
-4. 可选字段：
-   - `cover: /images/你的封面.png`：将图片放到 `public/images/`。
-   - `experience: https://作品地址` 或站内路径：作品的使用或体验入口。
-   - `source: https://源码地址`：公开代码入口。
-5. 确认是自己完成并愿意公开的作品后，设为 `draft: false`。
+“动效”可暂停装饰动作，偏好只存在本机浏览器。系统的减少动态偏好默认暂停动画。灯光切换只影响房间显示；没有背景音乐自动播放。
 
-作品页正文可以链接相关文章，文章也可以链接作品。推荐每个作品在独立仓库开发和部署，主站只保存作品说明、封面和链接。网站支持链接静态作品；需要后端的成品可以部署在独立服务后链接。
+## 在主仓库写文章
 
-未填写 `draft` 的内容默认不发布。草稿不会进入详情页、首页、列表、RSS 或 sitemap。当前两个内容集合均为空，因此前台显示真实的空状态。
+1. 将 `templates/article.md` 复制到 `src/content/articles/文章名.md`。
+2. 填写标题、摘要、日期和正文；`kind` 可选思考、教程、开发记录、随笔。
+3. 完成后设 `draft: false` 并提交。
 
-## 修改介绍
+文章会自动进入房间本子、文章列表、详情页、RSS 和 sitemap。文件名决定文章地址，发布后尽量保持稳定。模板不公开，草稿不进入任何公开集合。
 
-- 首页简短介绍：`src/pages/index.astro`。
-- 完整介绍：`src/pages/about.astro`。
-- 导航及页脚：`src/layouts/Layout.astro`。
-- 视觉系统：`src/styles/global.css`。
+## 独立仓库的产品
 
-公开名称统一为 ECHO，不展示真实姓名、单位或所在地。简介保持简短，作品与文章由作者确认后发布。
+每个产品可以使用自己的框架和仓库，独立发布到 `https://z-q-chen.github.io/仓库名/`。产品构建时须设置该子路径作为资源和路由的基础路径。主站不负责构建产品，也不自动把 GitHub 仓库当作作品。
 
-## 发布与回退
+有两种接入方式：
 
-仓库：`https://github.com/z-q-chen/z-q-chen.github.io`。
+1. **一个物件直接进入一个产品**：在 `src/data/room.ts` 设置对应入口的 `href`，如电视入口链接 `/你的影像产品仓库名/`。只有产品实际发布后才填写。主站独立链接不会自动保证跨仓库入场动画，产品可以后续添加自己的入场效果和回房间链接。
+2. **一个物件收纳多个成品**：复制 `templates/work.md` 到 `src/content/works/作品名.md`，填写 `experience` 为真实产品地址、`source` 为仓库，设 `draft: false`。`channel` 决定放入哪个入口：`music` 唱片、`games` 魔方、`images` 画框、`video` 电视、`tools` 抽屉。抽屉也能浏览所有成品。`featured: true` 的内容优先排列；可选 `cover` 是放到 public 下的封面路径。
 
-在 Settings → Pages 将 Source 设为 **GitHub Actions**。提交 `main` 后，`.github/workflows/deploy.yml` 自动构建、检查并发布到 `https://z-q-chen.github.io`。PR 只检查，不发布。无需个人密钥。
+未指定 `channel` 时，游戏/交互实验放到魔方，动画放到电视，其他放到抽屉。当前真实文章与作品均为空，各物件显示真实空状态，不存在虚构内容或尚未部署的产品链接。
 
-出现问题时查看 Actions 的失败步骤。回退可通过 revert 相应提交，再等待自动发布；不要删除历史或强制推送。旧版仍可从 Git 历史恢复，本地原始源码归档也保留。
+GitHub Pages 承载静态前端；需要在线生成、账户或存储的产品可以连接自己独立的后端，主站仍只保存入口。
 
-## 隐私与维护
+## 内容页与维护
 
-无统计脚本、外部字体、登录与数据收集。依赖版本由 lockfile 固定。图片、源代码和正文应确认可公开后再提交；不要把密钥或私人材料放入仓库。
+主站保留 `/articles/`、`/works/`、`/about/` 作为独立可访问内容页。旧版学习分叉和演示游戏已撤下，旧地址仅保留跳转。公开名字统一为 ECHO，不展示真实姓名、单位或所在地。
 
-## 手绘视觉
+内容页使用 `src/layouts/Layout.astro` 和 `src/styles/global.css`，并保留页边绘画功能。涂鸦只存在当前页面内存，刷新后消失。
 
-暖白纸张、彩色线条和矢量小插画。首页与关于页的小花会轻轻摇头，悬停时招手，点击时转动；纸飞机可点击飞行，太阳的目光随鼠标轻微移动。盆栽、蝴蝶与笔触各有独立的轻微动效。页脚按钮可关闭全部装饰动效；系统的减少动态偏好默认关闭动效。无需外部字体、图片服务或动画库。
+## 部署与回退
 
-插画位于 `src/components/DoodleGarden.astro` 和 `src/components/Doodle.astro`，排版与配色在 `src/styles/global.css`。这些插画是页面装饰，不属于作者的作品列表。
+提交 `main` 后，`.github/workflows/deploy.yml` 构建、检查并部署到 `https://z-q-chen.github.io/`；PR 只检查。Pages Source 应配置为 GitHub Actions。回退通过 revert 相应提交，保留 Git 历史，不强制推送。
 
-## 仓库分工与作品接入
-
-- `z-q-chen.github.io`：网站本身、文章正文、个人介绍及作品目录。
-- 每个作品独立仓库：源代码、依赖、版本记录与部署流程。作品不需要使用主站的技术栈或视觉风格。
-- 在作品部署完成后，主站增加一份 `src/content/works/作品名.md`；填写 `experience` 为实际体验地址、`source` 为作品仓库地址，再设 `draft: false`。文章制作记录仍写在 `src/content/articles/`。
-
-GitHub Pages 项目站默认地址是 `https://z-q-chen.github.io/作品仓库名/`（子路径）。主站作品介绍位于 `/works/作品名/`；介绍与体验是两个独立地址。使用构建工具时，作品仓库需要把资源和路由的基础路径设为 `/作品仓库名/`，具体配置取决于作品的框架。
-
-目前不能自行创建 `作品名.z-q-chen.github.io`。若以后拥有自己的域名，可以给各作品仓库分别配置自定义子域名，例如 `作品名.example.com`，再更新主站的 `experience`。主站不自动收录全部 GitHub 仓库；确认属于自己的成品后添加条目。
-
-参考：[GitHub Pages 站点类型](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages)、[自定义域名](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/about-custom-domains-and-github-pages)。
-
-## 页边涂鸦
-
-页脚的“涂两笔”开启页面画笔，可以选色、撤销、清空和结束；“移动页面”切换到滚动浏览，点“继续画”恢复画笔。支持鼠标或触控；按 Esc 也可结束。涂鸦仅存在当前页面内存中，不保存或上传，刷新或跳转页面会消失。浏览内容时涂鸦层不拦截点击。实现位于 `src/components/PageSketch.astro`。
+GitHub 项目站点路径：[官方说明](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages)。

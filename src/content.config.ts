@@ -15,6 +15,7 @@ const works = defineCollection({
     kind: z.enum(['工具', '项目', '游戏', '动画', '交互实验']),
     tags: z.array(z.string()).default([]), draft: z.boolean().default(true),
     featured: z.boolean().default(false),
+    channel: z.enum(['music', 'games', 'images', 'video', 'tools']).optional(),
     cover: z.string().regex(/^\/(?!\/)/).optional(),
     experience: z.string().refine(v => /^\/(?!\/)/.test(v) || /^https?:\/\//.test(v), 'Use a site path or HTTP(S) URL').optional(),
     source: z.string().url().refine(v => /^https?:\/\//.test(v), 'Use an HTTP(S) URL').optional()

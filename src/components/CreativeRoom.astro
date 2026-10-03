@@ -1,0 +1,79 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import {roomEntries,channelOf} from '../data/room';
+interface Props { articles: CollectionEntry<'articles'>[]; works: CollectionEntry<'works'>[] }
+const {articles,works}=Astro.props;
+const icons:Record<string,string>={book:'✎',music:'♫',games:'◇',images:'▧',video:'▷',about:'☺',drawer:'✧'};
+---
+<div class="room-shell" data-room>
+  <header class="room-heading"><span class="room-wordmark">ECHO<span>’s room</span></span><button class="room-light" data-light aria-label="切换到夜晚" aria-pressed="false" title="换个光线">☼</button></header>
+  <main id="main" tabindex="-1"><h1 class="visually-hidden">ECHO 的手绘创作房间</h1>
+    <div class="room-viewport" data-viewport>
+      <div class="room-world" data-world>
+        <img class="studio-plate" src="/room/studio.webp" width="1536" height="1024" alt="暖色手绘工作室：书桌、窗户、唱片机、画框和小电视。戴耳机的 ECHO 坐在桌沿。" fetchpriority="high" decoding="async"/>
+        <div class="window-night" aria-hidden="true"><i></i><i></i><i></i><i></i><b>☾</b></div>
+        <svg class="headphone-wire" viewBox="0 0 1536 1024" aria-hidden="true"><path d="M625 355Q594 424 691 508Q730 611 830 582" fill="none" stroke="#5b473d" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <div class="echo-character" aria-hidden="true"><img class="echo-body" src="/room/echo.webp" width="1536" height="1024" alt=""/><img class="echo-head" src="/room/echo.webp" width="1536" height="1024" alt=""/><img class="echo-feet" src="/room/echo.webp" width="1536" height="1024" alt=""/></div>
+        <div class="record-disc" aria-hidden="true"><span></span></div>
+        <div class="floating-notes" aria-hidden="true"><i>♪</i><i>♫</i><i>♩</i></div>
+        <div class="sun-dust" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="tv-screen" aria-hidden="true"><div class="tv-sky"><span class="tv-moon"></span><i class="tv-cloud cloud-a"></i><i class="tv-cloud cloud-b"></i><span class="tv-hill hill-a"></span><span class="tv-hill hill-b"></span></div><span class="tv-grain"></span><span class="tv-scan"></span><span class="tv-dot"></span></div>
+        <div class="lamp-glow" aria-hidden="true"></div>
+        <svg class="notebook-ink" viewBox="0 0 130 35" aria-hidden="true"><path d="M8 12Q22 7 32 12T58 12M9 21Q21 16 43 20M71 10l10 4 9-7M74 23q12-9 24-1"/></svg>
+        <button class="paper-plane" data-plane aria-label="让纸飞机飞一圈" title="放飞一下"><svg viewBox="0 0 120 72" aria-hidden="true"><path d="M7 22L112 5 76 63 58 40 7 22Z" fill="#f5f3e9"/><path d="M7 22L112 5 76 63 58 40 7 22ZM58 40L112 5 42 33M58 40L57 59 68 50" fill="none" stroke="#62584b" stroke-width="2" stroke-linejoin="round"/><path d="M58 40L112 5 42 33Z" fill="#9ebbc8" opacity=".5"/></svg></button>
+        {roomEntries.map(entry=><a class={`room-hotspot hotspot-${entry.id}`} href={`#${entry.id}`} data-entry={entry.id} data-origin={entry.origin} data-target={entry.href} style={`--x:${entry.x}%;--y:${entry.y}%;--w:${entry.w}%;--h:${entry.h}%`} aria-label={entry.label}><span class="hotspot-halo"></span><span class="hotspot-label">{entry.label}<small>↗</small></span></a>)}
+      </div>
+    </div>
+    <div class="room-under"><p class="room-whisper"><span aria-hidden="true">✧</span> 房间里的东西，可以点。</p><div class="room-pan"><button data-pan="left" aria-label="往房间左边看看">←</button><span>左右看看</span><button data-pan="right" aria-label="往房间右边看看">→</button></div></div>
+  </main>
+  <footer class="room-footer"><span class="room-signature">a little space to grow</span><div><button data-map aria-label="打开房间入口地图">找东西 <span>⌕</span></button><button data-motion aria-pressed="false" aria-label="暂停动效">动效 <span data-motion-label>开</span></button><a href="/feed.xml">RSS ↗</a><a href="https://github.com/z-q-chen" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div></footer>
+  <dialog class="room-map" data-map-dialog aria-labelledby="map-title"><div class="map-paper"><button class="dialog-close" data-map-close aria-label="关闭入口地图">×</button><h2 id="map-title">想找点什么？</h2><div class="map-entries">{roomEntries.map(e=><a href={`#${e.id}`} data-map-entry={e.id}><span aria-hidden="true">{icons[e.id]}</span>{e.label}<small>↗</small></a>)}</div></div></dialog>
+  <dialog class="room-channel" data-channel-dialog aria-label="房间里的内容"><div class="channel-paper"><button class="channel-back" data-channel-close><span aria-hidden="true">↙</span> 回房间</button>
+  {roomEntries.map(entry=>{
+    const selected=entry.channel==='all'?works:works.filter(w=>channelOf(w.data)===entry.channel);
+    return <section class={`channel-view channel-${entry.id}`} data-channel={entry.id} hidden>
+      <div class="channel-intro"><span class="channel-symbol" aria-hidden="true">{icons[entry.id]}</span><p class="channel-eyebrow">ECHO’s room / {entry.id==='book'?'notebook':entry.id}</p><h2>{entry.name}</h2>{entry.hint&&<p>{entry.hint}</p>}</div>
+      {entry.id==='about'?<div class="room-about"><img src="/room/echo.webp" alt="银白短发、猫耳、粉色外套的 ECHO" width="1536" height="1024"/><div><p>写字，做东西，偶尔走神。</p><p>这里会慢慢装下我的创作。</p><a href="https://github.com/z-q-chen" target="_blank" rel="noopener noreferrer">在 GitHub 找到我 ↗</a></div></div>:entry.id==='book'?articles.length?<div class="room-posts">{articles.map(a=><a href={`/articles/${a.id}/`}><time datetime={a.data.date.toISOString()}>{a.data.date.toISOString().slice(0,10)}</time><h3>{a.data.title}<span>↗</span></h3><p>{a.data.description}</p></a>)}</div>:<div class="channel-empty"><span class="empty-art" aria-hidden="true">✎<i>~</i></span><h3>{entry.empty}</h3><p>{entry.note}</p></div>:selected.length?<div class="room-products">{selected.map(w=><a href={w.data.experience||`/works/${w.id}/`}><div class="product-cover">{w.data.cover?<img src={w.data.cover} alt="" loading="lazy"/>:<span aria-hidden="true">{icons[entry.id]}</span>}</div><h3>{w.data.title}<span>↗</span></h3><p>{w.data.description}</p></a>)}</div>:<div class="channel-empty"><span class={`empty-art art-${entry.id}`} aria-hidden="true">{icons[entry.id]}<i>✧</i></span><h3>{entry.empty}</h3><p>{entry.note}</p></div>}
+    </section>;
+  })}
+  </div></dialog>
+  <noscript><div class="room-noscript"><p>房间动效需要 JavaScript。也可以直接打开：</p><a href="/articles/">本子</a><a href="/works/">抽屉</a><a href="/about/">ECHO</a></div></noscript>
+</div>
+<script>
+const room=document.querySelector<HTMLElement>('[data-room]')!;
+const world=room.querySelector<HTMLElement>('[data-world]')!;
+const viewport=room.querySelector<HTMLElement>('[data-viewport]')!;
+const dialog=room.querySelector<HTMLDialogElement>('[data-channel-dialog]')!;
+const map=room.querySelector<HTMLDialogElement>('[data-map-dialog]')!;
+const motion=room.querySelector<HTMLButtonElement>('[data-motion]')!;
+const light=room.querySelector<HTMLButtonElement>('[data-light]')!;
+const links=Array.from(room.querySelectorAll<HTMLAnchorElement>('[data-entry]'));
+const preference=matchMedia('(prefers-reduced-motion: reduce)');
+let paused=preference.matches, active='', timer:ReturnType<typeof setTimeout>|undefined, pushed=false, returnFocus:HTMLElement|null=null;
+try {const saved=localStorage.getItem('echo-room-motion');if(saved!==null)paused=saved==='paused';}catch{}
+function syncMotion(){document.body.dataset.motion=paused?'paused':'running';motion.setAttribute('aria-pressed',String(paused));motion.setAttribute('aria-label',paused?'开启动效':'暂停动效');room.querySelector('[data-motion-label]')!.textContent=paused?'关':'开';}
+syncMotion();motion.addEventListener('click',()=>{paused=!paused;syncMotion();try{localStorage.setItem('echo-room-motion',paused?'paused':'running');}catch{}});
+preference.addEventListener('change',e=>{paused=e.matches;syncMotion();});
+light.addEventListener('click',()=>{const night=room.dataset.light!=='night';room.dataset.light=night?'night':'day';light.textContent=night?'☾':'☼';light.setAttribute('aria-pressed',String(night));light.setAttribute('aria-label',night?'切换到白天':'切换到夜晚');});
+function showContent(id:string){room.querySelectorAll<HTMLElement>('[data-channel]').forEach(s=>s.hidden=s.dataset.channel!==id);dialog.dataset.kind=id;dialog.setAttribute('aria-label',links.find(l=>l.dataset.entry===id)?.getAttribute('aria-label')||'房间里的内容');if(!dialog.open)dialog.showModal();dialog.scrollTop=0;room.classList.remove('is-entering');room.classList.add('is-inside');}
+function open(id:string,animate=true,fromHistory=false){const link=links.find(l=>l.dataset.entry===id);if(!link)return;clearTimeout(timer);if(map.open)map.close();returnFocus=link;active=id;room.dataset.selected=id;world.style.setProperty('--camera-origin',link.dataset.origin||'50% 50%');if(!fromHistory){history.pushState({echoRoom:id},'',`#${id}`);pushed=true;}if(link.dataset.target){location.assign(link.dataset.target);return;}
+ if(animate&&!paused){room.classList.add('is-entering');timer=setTimeout(()=>showContent(id),id==='video'?760:580);}else showContent(id);
+}
+function clearRoom(){clearTimeout(timer);if(dialog.open)dialog.close();active='';delete room.dataset.selected;room.classList.remove('is-entering','is-inside');returnFocus?.focus({preventScroll:true});}
+function close(){if(!active)return;if(pushed){pushed=false;history.back();}else {history.replaceState(null,'',location.pathname+location.search);clearRoom();}}
+links.forEach(link=>{link.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;e.preventDefault();open(link.dataset.entry!);});link.addEventListener('pointerenter',()=>{room.dataset.hover=link.dataset.entry;});link.addEventListener('pointerleave',()=>{delete room.dataset.hover;});link.addEventListener('focus',()=>{room.dataset.hover=link.dataset.entry;});link.addEventListener('blur',()=>{delete room.dataset.hover;});});
+room.querySelector('[data-channel-close]')!.addEventListener('click',close);
+dialog.addEventListener('cancel',e=>{e.preventDefault();close();});
+dialog.addEventListener('click',e=>{if(e.target===dialog)close();});
+window.addEventListener('popstate',()=>{const id=location.hash.slice(1);if(links.some(l=>l.dataset.entry===id))open(id,false,true);else clearRoom();});
+window.addEventListener('hashchange',()=>{const id=location.hash.slice(1);if(id!==active&&links.some(l=>l.dataset.entry===id))open(id,false,true);else if(!id&&active)clearRoom();});
+room.querySelector('[data-map]')!.addEventListener('click',()=>map.showModal());
+room.querySelector('[data-map-close]')!.addEventListener('click',()=>map.close());
+map.addEventListener('click',e=>{if(e.target===map)map.close();});
+room.querySelectorAll<HTMLAnchorElement>('[data-map-entry]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();open(a.dataset.mapEntry!);}));
+room.querySelectorAll<HTMLButtonElement>('[data-pan]').forEach(b=>b.addEventListener('click',()=>viewport.scrollBy({left:(b.dataset.pan==='left'?-1:1)*viewport.clientWidth*.7,behavior:paused?'instant':'smooth'})));
+const plane=room.querySelector<HTMLButtonElement>('[data-plane]')!;let flightTimer:ReturnType<typeof setTimeout>|undefined;
+plane.addEventListener('click',()=>{if(paused)return;clearTimeout(flightTimer);plane.classList.remove('is-flying');requestAnimationFrame(()=>requestAnimationFrame(()=>{plane.classList.add('is-flying');flightTimer=setTimeout(()=>plane.classList.remove('is-flying'),2300);}));});
+if(viewport.scrollWidth>viewport.clientWidth)viewport.scrollLeft=(viewport.scrollWidth-viewport.clientWidth)*.45;
+const initial=location.hash.slice(1);if(links.some(l=>l.dataset.entry===initial))open(initial,false,true);
+</script>

@@ -5,6 +5,8 @@ date: 2026-10-03
 kind: 工具
 tags: []
 draft: true
+# 房间入口可选 music / games / images / video / tools
+channel: tools
 featured: true
 # 部署独立作品仓库后，取消下面两行的注释并填写实际地址。
 # experience: https://z-q-chen.github.io/作品仓库名/

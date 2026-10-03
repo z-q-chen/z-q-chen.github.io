@@ -1,21 +1,8 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import WorkCard from '../components/WorkCard.astro';
-import ArticleRow from '../components/ArticleRow.astro';
-import DoodleGarden from '../components/DoodleGarden.astro';
-import Doodle from '../components/Doodle.astro';
-import MarginDoodles from '../components/MarginDoodles.astro';
+import RoomLayout from '../layouts/RoomLayout.astro';
+import CreativeRoom from '../components/CreativeRoom.astro';
 import {getCollection} from 'astro:content';
-const works=(await getCollection('works',({data})=>!data.draft)).sort((a,b)=>Number(b.data.featured)-Number(a.data.featured)||b.data.date.valueOf()-a.data.date.valueOf()).slice(0,3);
-const articles=(await getCollection('articles',({data})=>!data.draft)).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf()).slice(0,4);
+const articles=(await getCollection('articles',({data})=>!data.draft)).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf());
+const works=(await getCollection('works',({data})=>!data.draft)).sort((a,b)=>Number(b.data.featured)-Number(a.data.featured)||b.data.date.valueOf()-a.data.date.valueOf());
 ---
-<Layout>
-<section class="paper-hero"><MarginDoodles spot="hero"/>
-  <div class="hero-copy"><p class="hello">你好，我是 ECHO <span aria-hidden="true">☺</span></p><h1>一点好奇，<br/><span class="pencil-underline">一些新东西。</span></h1><p class="hero-caption">做东西，写下来。慢慢长大。</p><a href="/about/" class="hand-link">认识一下 <span>↗</span></a></div>
-  <DoodleGarden/>
-  <span class="margin-note" aria-hidden="true">a little space to grow</span>
-</section>
-<div id="collection" class="home-collection"><MarginDoodles spot="cards"/>
-{!works.length&&!articles.length ? <div class="paper-portals"><a class="paper-card work-paper" href="/works/" aria-label="作品，尚未发布"><span class="tape" aria-hidden="true"></span><Doodle kind="work"/><div class="paper-card-copy"><h2>作品 <span>↗</span></h2><p>还在酝酿中</p></div><span class="card-scribble" aria-hidden="true">✳</span></a><a class="paper-card word-paper" href="/articles/" aria-label="文章，尚未发布"><span class="tape" aria-hidden="true"></span><Doodle kind="word"/><div class="paper-card-copy"><h2>文章 <span>↗</span></h2><p>第一篇，慢慢来</p></div><span class="card-scribble" aria-hidden="true">~</span></a></div> : <><section class="section"><div class="section-heading"><h2>作品 <span class="heading-en">little things</span></h2><a href="/works/" class="arrow-link" aria-label="查看全部作品">↗</a></div>{works.length?<div class="work-grid">{works.map(work=><WorkCard work={work}/>)}</div>:<a class="quiet-empty" href="/works/">作品还在酝酿中 ↗</a>}</section><section class="section"><div class="section-heading"><h2>文章 <span class="heading-en">a few words</span></h2><a href="/articles/" class="arrow-link" aria-label="查看全部文章">↗</a></div>{articles.length?<div class="article-list">{articles.map(article=><ArticleRow article={article}/>)}</div>:<a class="quiet-empty" href="/articles/">第一篇，慢慢来 ↗</a>}</section></>}
-</div>
-</Layout>
+<RoomLayout><CreativeRoom articles={articles} works={works}/></RoomLayout>
