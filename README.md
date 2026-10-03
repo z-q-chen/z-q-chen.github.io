@@ -1,17 +1,17 @@
 # 陈正佺 · 数字实验室
 
-面向 `https://z-q-chen.github.io` 的个人数字实验室。Astro + TypeScript + Markdown，静态输出；交互实验只在浏览器运行。
+个人网站：作品、文章、关于。首页呈现个人介绍、精选作品和最近文章；只发布作者确认的真实内容。旧版学习分叉、网站生成的游戏及起始文章已撤下，旧网址跳转至新栏目。
 
-## 本地运行
+## 本地使用
 
-需要 Node.js 24、npm。
+需要 Node.js 24 和 npm：
 
 ```sh
 npm ci
 npm run dev
 ```
 
-打开终端显示的本机网址。构建和检查：
+检查并预览：
 
 ```sh
 npm run build
@@ -19,61 +19,46 @@ npm run verify
 npm run preview
 ```
 
-## 内容与结构
+## 发布文章
 
-- `src/pages/`：首页、研究、项目、游乐场、笔记、关于、404。
-- `src/content/notes/`：Markdown 笔记，按 schema 检查；`draft: true` 不进入页面、索引、RSS 或 sitemap。
-- `src/data/lab.ts`：项目和实验目录。
-- `src/pages/lab/`：可独立运行的实验页面。
-- `src/styles/global.css`：全站视觉系统、手机布局与减少动画偏好。
-- `src/layouts/Layout.astro`：导航、页面元信息、页脚。
+1. 复制 `templates/article.md` 到 `src/content/articles/你的文章名.md`。
+2. 修改标题、摘要、日期和正文。`kind` 可选：**思考、教程、开发记录、随笔**；`tags` 用于主题标签。
+3. 确认内容后把 `draft: true` 改为 `draft: false`，提交到 `main`。
 
-新增笔记示例：
+文章会自动进入文章列表、首页的最近四篇、RSS 和 sitemap。文件名成为网址，已发布后尽量保持不变。模板存放在内容目录之外，不会被公开。
 
-```md
----
-title: 你的标题
-description: 简短说明
-date: 2026-10-03
-kind: 工作室手记
-tags: [实验, 记录]
-draft: true
----
+## 发布自己的成品
 
-## 问题
+1. 复制 `templates/work.md` 到 `src/content/works/你的作品名.md`。
+2. 修改标题、摘要、日期与正文。`kind` 可选：**工具、项目、游戏、动画、交互实验**。
+3. `featured: true` 的作品优先显示在首页；首页最多显示三个，余下位置由最近发布的作品补充。
+4. 可选字段：
+   - `cover: /images/你的封面.png`：将图片放到 `public/images/`。
+   - `experience: https://作品地址` 或站内路径：作品的使用或体验入口。
+   - `source: https://源码地址`：公开代码入口。
+5. 确认是自己完成并愿意公开的作品后，设为 `draft: false`。
 
-## 尝试
+作品页正文可以链接相关文章，文章也可以链接作品。新游戏或动画可作为独立页面加入 `src/pages/`，再把它的地址写入作品的 `experience` 字段。网站支持静态作品；需要后端的成品可以托管在独立服务后链接。
 
-## 观察与下一步
-```
+未填写 `draft` 的内容默认不发布。草稿不会进入详情页、首页、列表、RSS 或 sitemap。当前两个内容集合均为空，因此前台显示真实的空状态。
 
-`kind` 支持：工作室手记、实验说明、学习索引。确认内容可公开后，将 `draft` 改为 `false`。文件名会成为网址，不要随意改动已经公开的文件名。新增栏目可在 `Layout.astro` 与 `src/pages/` 中扩展。
+## 修改介绍
 
-新增实验：添加 `src/pages/lab/你的实验.astro`，并在 `src/data/lab.ts` 中登记；独立脚本放在 `src/scripts/`。部署静态站点不支持服务器端数据库和密钥；未来有后端的项目可以部署到独立服务后从项目档案链接。
+- 首页简短介绍：`src/pages/index.astro`。
+- 完整介绍：`src/pages/about.astro`。
+- 导航及页脚：`src/layouts/Layout.astro`。
+- 视觉系统：`src/styles/global.css`。
 
-## GitHub Pages 发布
+现有个人背景只使用已核验的公开姓名、NJU 标记和南京所在地。没有编造个人成果、研究经历或兴趣。
 
-1. 在账户 `z-q-chen` 下创建 **公开仓库** `z-q-chen.github.io`，默认分支 `main`。首次使用连接工具上传时，先勾选 Add a README file 以生成起始提交。
-2. 将本目录中的源代码上传到仓库根目录，包括 `.github/workflows/deploy.yml` 和 `package-lock.json`。不要上传 `node_modules`、`.astro`、本地配置或私密内容。
-3. 在仓库 Settings → Pages → Build and deployment 中，把 Source 设为 **GitHub Actions**。
-4. 在 Actions 运行 **Publish digital laboratory**，或向 `main` 提交一次变更。
-5. 等待 build 与 deploy 成功，实际打开网站和几个子页面核验。
+## 发布与回退
 
-提交到 `main` 后会自动重新发布。PR 只构建并验证，不发布。工作流仅在部署任务中申请 Pages 与身份令牌写入权限，不需要个人密钥。
+仓库：`https://github.com/z-q-chen/z-q-chen.github.io`。
 
-网站配置不设置 `base`，因为这是用户根站点仓库。不要添加 CNAME；当前目标是 GitHub 自带域名。
+在 Settings → Pages 将 Source 设为 **GitHub Actions**。提交 `main` 后，`.github/workflows/deploy.yml` 自动构建、检查并发布到 `https://z-q-chen.github.io`。PR 只检查，不发布。无需个人密钥。
 
-## 内容依据
+出现问题时查看 Actions 的失败步骤。回退可通过 revert 相应提交，再等待自动发布；不要删除历史或强制推送。旧版仍可从 Git 历史恢复，本地原始源码归档也保留。
 
-公开背景和仓库信息读取于 2026-10-03：`https://github.com/z-q-chen`。课程和教程分叉均标注为学习入口；没有推断学位、职务、论文、作业完成度或实验成绩。首批笔记为网站起始说明，三个游乐场作品为本站制作的演示。没有发布本地项目的非公开资料。
+## 隐私与维护
 
-## 运维与回退
-
-- 依赖版本由 `package-lock.json` 固定；升级依赖后重新构建和验证。
-- 若发布失败，查看 Actions 的失败步骤；网站保留上次成功发布的版本。
-- 回退已发布变更：在 GitHub 撤销相关提交（revert），再等待自动部署。无需删除历史或强制推送。
-- 发布后核对首页、笔记直达链接、三个实验、手机布局以及 `/404.html`。
-
-## 隐私与交互
-
-无统计脚本、无外部字体、无登录、无服务器数据收集。小游戏最高轮次只写本机浏览器 localStorage。动画可暂停，默认尊重减少动画偏好，标签隐藏时停止渲染；游戏和模拟在标签隐藏时暂停。生命网格支持方向键与空格，游戏支持 1–4 键。
+无统计脚本、外部字体、登录与数据收集。依赖版本由 lockfile 固定。图片、源代码和正文应确认可公开后再提交；不要把密钥或私人材料放入仓库。

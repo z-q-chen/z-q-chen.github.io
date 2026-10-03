@@ -1,6 +1,0 @@
----
-import Layout from '../../layouts/Layout.astro';
-import Visual from '../../components/Visual.astro';
-import {experiments} from '../../data/lab';
----
-<Layout title="游乐场 · 陈正佺数字实验室" active="lab"><header class="page-intro"><p class="eyebrow">PLAYGROUND / IDEAS YOU CAN TOUCH</p><h1>给好奇心，<span class="serif accent">一点空间。</span></h1><p>一些可以动手的小实验。调整参数，打乱初始状态，观察变化。这里的作品是为本站制作的交互演示。</p></header><div class="page-content"><div class="experiment-grid">{experiments.map(e=><a href={`/lab/${e.slug}/`} class="experiment-card"><Visual type={e.visual}/><div class="card-body"><div class="card-meta"><span>{e.en}</span><span>EXP. {e.number}</span></div><h3>{e.title}<span>↗</span></h3><p>{e.description}</p><span class="pill">{e.kind}</span></div></a>)}</div><p class="notice">三个实验均在你的浏览器中运行，无需登录。记忆小游戏的最高轮次只保存在当前浏览器；不向服务器发送游戏记录。</p></div></Layout>

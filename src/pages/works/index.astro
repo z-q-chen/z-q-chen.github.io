@@ -1,0 +1,9 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import WorkCard from '../../components/WorkCard.astro';
+import {getCollection} from 'astro:content';
+const works=(await getCollection('works',({data})=>!data.draft)).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf());
+const kinds=['全部',...new Set(works.map(w=>w.data.kind))];
+---
+<Layout title="作品 · 陈正佺数字实验室" active="works"><header class="page-intro"><p class="eyebrow">WORKS / THINGS I MAKE</p><h1>让想法，<span class="serif accent">有个形状。</span></h1><p>这里收录我自己的成品。工具、项目、小游戏、动画与交互实验，都可以在这里找到位置。</p></header><div class="page-content">{works.length ? <>{kinds.length>2&&<div class="filter-bar" aria-label="作品类型筛选">{kinds.map((k,i)=><button data-work-filter={k} aria-pressed={i===0?'true':'false'}>{k}</button>)}</div>}<div class="work-grid">{works.map(work=><div data-work-kind={work.data.kind}><WorkCard work={work}/></div>)}</div></> : <div class="collection-empty"><span class="empty-symbol" aria-hidden="true">↗</span><h2>暂无公开作品</h2><p>完成后的作品会陆续收录在这里。<br/>有关制作过程的记录，可以到文章里阅读。</p><a href="/articles/" class="text-link">前往文章 →</a></div>}</div></Layout>
+<script>document.querySelectorAll<HTMLButtonElement>('[data-work-filter]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('[data-work-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b===btn)));document.querySelectorAll<HTMLElement>('[data-work-kind]').forEach(card=>{card.hidden=btn.dataset.workFilter!=='全部'&&card.dataset.workKind!==btn.dataset.workFilter;});}));</script>

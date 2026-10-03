@@ -1,7 +1,0 @@
----
-import Layout from '../../layouts/Layout.astro';
-import {getCollection,render} from 'astro:content';
-export async function getStaticPaths(){const notes=await getCollection('notes',({data})=>!data.draft);return notes.map(note=>({params:{id:note.id},props:{note}}));}
-const {note}=Astro.props;const {Content}=await render(note);
----
-<Layout title={`${note.data.title} · 数字实验室`} description={note.data.description} active="notes"><article class="article"><a class="back-link" href="/notes/">← 返回笔记</a><header class="page-intro"><p class="eyebrow">{note.data.kind} / {note.data.date.toISOString().slice(0,10)}</p><h1>{note.data.title}</h1><p>{note.data.description}</p></header><div class="tags">{note.data.tags.map(t=><span class="pill">{t}</span>)}</div><div class="prose"><Content/></div><footer class="article-footer"><a class="text-link" href="/notes/">继续翻阅笔记 →</a></footer></article></Layout>

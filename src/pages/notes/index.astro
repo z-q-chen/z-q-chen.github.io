@@ -1,8 +1,0 @@
----
-import Layout from '../../layouts/Layout.astro';
-import {getCollection} from 'astro:content';
-const notes=(await getCollection('notes',({data})=>!data.draft)).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf());
-const kinds=['全部',...new Set(notes.map(n=>n.data.kind))];
----
-<Layout title="笔记 · 陈正佺数字实验室" active="notes"><header class="page-intro"><p class="eyebrow">FIELD NOTES / LEAVE A TRACE</p><h1>一边探索，<span class="serif accent">一边记录。</span></h1><p>方法、观察、学习入口与工作室手记。首批笔记为本站的起始说明，未来的实验记录会持续加入。</p></header><div class="page-content"><div class="filter-bar" aria-label="笔记类型筛选">{kinds.map((k,i)=><button data-note-filter={k} aria-pressed={i===0?'true':'false'}>{k}</button>)}</div><div class="note-list">{notes.map(n=><a class="note-row" data-kind={n.data.kind} href={`/notes/${n.id}/`}><div class="card-meta"><time datetime={n.data.date.toISOString()}>{n.data.date.toISOString().slice(0,10)}</time><span>{n.data.kind} / {n.data.tags.join(' · ')}</span></div><h3>{n.data.title}<span>↗</span></h3><p class="muted">{n.data.description}</p></a>)}</div></div></Layout>
-<script>document.querySelectorAll<HTMLButtonElement>('[data-note-filter]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('[data-note-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b===btn)));document.querySelectorAll<HTMLElement>('[data-kind]').forEach(row=>{row.hidden=btn.dataset.noteFilter!=='全部'&&row.dataset.kind!==btn.dataset.noteFilter;});}));</script>
