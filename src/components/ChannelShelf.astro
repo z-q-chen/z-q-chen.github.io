@@ -1,0 +1,11 @@
+---
+import SectionDoodle from './SectionDoodle.astro';
+import {channels} from '../data/channels';
+const {includeBook=false,compact=false}=Astro.props;
+const items=[...(includeBook?[{id:'book',label:'文章',icon:'book',note:'随手写下',href:'/articles/'}]:[]),...channels.map(c=>({...c,href:`/collections/${c.id}/`}))];
+---
+<nav class:list={['doodle-shelf',{'shelf-compact':compact}]} aria-label={includeBook?'手绘内容入口':'作品分类'}>
+  {items.map(item=><a class:list={['doodle-entry',`entry-${item.id}`]} href={item.href} data-doodle-entry={item.id} aria-label={item.label}>
+    <span class="entry-art"><SectionDoodle kind={item.icon}/></span><span class="entry-label">{item.label}<span aria-hidden="true">↗</span></span><span class="entry-note">{item.note}</span>
+  </a>)}
+</nav>

@@ -1,8 +1,27 @@
 ---
-import RoomLayout from '../layouts/RoomLayout.astro';
-import CreativeRoom from '../components/CreativeRoom.astro';
+import Layout from '../layouts/Layout.astro';
+import WorkCard from '../components/WorkCard.astro';
+import ArticleRow from '../components/ArticleRow.astro';
+import DoodleGarden from '../components/DoodleGarden.astro';
+import ChannelShelf from '../components/ChannelShelf.astro';
+import MarginDoodles from '../components/MarginDoodles.astro';
 import {getCollection} from 'astro:content';
-const articles=(await getCollection('articles',({data})=>!data.draft)).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf());
-const works=(await getCollection('works',({data})=>!data.draft)).sort((a,b)=>Number(b.data.featured)-Number(a.data.featured)||b.data.date.valueOf()-a.data.date.valueOf());
+const articles=(await getCollection('articles',({data})=>!data.draft)).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf()).slice(0,4);
+const works=(await getCollection('works',({data})=>!data.draft)).sort((a,b)=>Number(b.data.featured)-Number(a.data.featured)||b.data.date.valueOf()-a.data.date.valueOf()).slice(0,3);
 ---
-<RoomLayout><CreativeRoom articles={articles} works={works}/></RoomLayout>
+<Layout>
+<section class="paper-hero"><MarginDoodles spot="hero"/>
+  <div class="hero-copy"><p class="hello">你好，我是 ECHO <span aria-hidden="true">☺</span></p><h1>一点好奇，<br/><span class="pencil-underline">一些新东西。</span></h1><p class="hero-caption">做东西，写下来。慢慢长大。</p><a href="/about/" class="hand-link">认识一下 <span>↗</span></a></div>
+  <DoodleGarden/><span class="margin-note" aria-hidden="true">a little space to grow</span>
+</section>
+<div id="collection" class="home-collection"><div class="shelf-intro"><span>随手翻翻</span><a href="/works/">所有作品 ↗</a></div><ChannelShelf includeBook/>
+{works.length>0&&<section class="section"><div class="section-heading"><h2>新东西</h2><a href="/works/" class="arrow-link" aria-label="查看全部作品">↗</a></div><div class="work-grid">{works.map(work=><WorkCard work={work}/>)}</div></section>}
+{articles.length>0&&<section class="section"><div class="section-heading"><h2>新写的</h2><a href="/articles/" class="arrow-link" aria-label="查看全部文章">↗</a></div><div class="article-list">{articles.map(article=><ArticleRow article={article}/>)}</div></section>}
+</div>
+</Layout>
+
+<script>
+import {legacyEntries} from '../data/channels';
+const old=legacyEntries.find(entry=>entry.id===location.hash.slice(1));
+if(old)location.replace(old.href);
+</script>

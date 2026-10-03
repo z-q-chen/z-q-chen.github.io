@@ -20,12 +20,9 @@ for(const page of ['index.html','works/index.html','articles/index.html','about/
 }
 console.log(`Verified ${html.length} HTML pages and ${links} local links/assets. New sections exist; retired material is absent from public collections.`);
 
-const room=await readFile(path.join(root,'index.html'),'utf8');
-for(const entry of ['book','music','games','images','video','about','drawer']) {
- assert.ok(room.includes(`data-entry=\"${entry}\"`),`Missing room entrance: ${entry}`);
- assert.ok(room.includes(`data-channel=\"${entry}\"`),`Missing room channel: ${entry}`);
- assert.ok(files.includes(path.join(root,`room/${entry}/index.html`)),`Missing real channel route: ${entry}`);
-}
-for(const asset of ['room/environment.webp','room/objects.webp','room/nature.webp','room/echo.webp'])assert.ok(files.includes(path.join(root,asset)),`Missing painting layer: ${asset}`);
-assert.ok(!room.includes('class=\"site-header'),'Homepage must use the room rather than traditional navigation');
-console.log('Verified all seven room entrances, matching channels and the four active local artwork layers.');
+const home=await readFile(path.join(root,'index.html'),'utf8');
+for(const entry of ['book','music','games','images','video','tools'])assert.ok(home.includes(`data-doodle-entry="${entry}"`),`Missing hand-drawn entrance: ${entry}`);
+for(const channel of ['music','games','images','video','tools'])assert.ok(files.includes(path.join(root,`collections/${channel}/index.html`)),`Missing channel route: ${channel}`);
+assert.ok(!home.includes('data-portal-stage')&&!home.includes('/room/')&&!home.includes('.webp'),'Homepage must use native hand-drawn vectors, without cutout rooms');
+assert.ok(!sitemap.includes('/room/'),'Retired room routes must not be advertised');
+console.log('Verified six hand-drawn entrances, five category pages and removal of the cutout room.');

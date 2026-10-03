@@ -1,0 +1,64 @@
+---
+const {kind='book'}=Astro.props;
+---
+<svg class:list={['section-doodle',`doodle-${kind}`]} viewBox="0 0 180 150" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+{kind==='book' && <>
+  <path d="M23 42L88 32L154 48L153 121L89 108L26 122Z" fill="#e5a08c" stroke="#718370" stroke-width="2"/>
+  <path d="M30 37Q59 27 90 39Q123 29 148 41L145 111Q119 101 91 107Q59 99 33 112Z" fill="#fffdf4" stroke="#718370" stroke-width="2"/>
+  <path d="M90 40L91 105M42 59Q62 53 78 60M43 72Q62 67 77 72M45 86L68 84" stroke="#b4c4a7" stroke-width="1.7"/>
+  <path d="M113 81C99 64 109 51 120 59C134 43 142 61 124 80L118 88Z" fill="#c1d4ad" stroke="#829773" stroke-width="1.6"/>
+  <path d="M119 88L120 66M79 39L78 70L85 64L92 70L93 40" stroke="#b29a66" fill="#efd17f" stroke-width="1.5"/>
+  <path class="doodle-spark" d="M37 19L39 10M24 27L14 23M151 25L158 18" stroke="#cf937b" stroke-width="2"/>
+</>}
+{kind==='music' && <>
+  <path d="M43 84C36 18 142 12 141 81" stroke="#64879a" stroke-width="13"/>
+  <path d="M44 82C38 19 142 17 141 82" stroke="#405c67" stroke-width="2"/>
+  <path d="M42 82Q30 76 30 89L32 116Q36 127 50 123L58 118L54 86Z" fill="#d2dfdd" stroke="#64879a" stroke-width="2"/>
+  <path d="M47 81Q56 77 60 88L63 113Q64 125 54 128Q46 128 45 119L41 92Q40 84 47 81Z" fill="#91a9b4" stroke="#587b8f" stroke-width="2"/>
+  <path d="M139 79Q150 73 154 86L153 115Q150 126 137 123L128 117L131 83Z" fill="#d2dfdd" stroke="#64879a" stroke-width="2"/>
+  <path d="M132 80Q123 79 120 89L118 113Q117 125 128 127Q135 127 136 118L140 92Q141 83 132 80Z" fill="#91a9b4" stroke="#587b8f" stroke-width="2"/>
+  <path d="M133 125Q141 142 112 140" stroke="#64879a" stroke-width="2"/>
+  <g class="doodle-note" stroke="#c48575" stroke-width="2"><path d="M94 82L94 106M94 82L109 77L110 100"/><ellipse cx="88" cy="108" rx="6" ry="4" fill="#c48575"/><ellipse cx="104" cy="102" rx="6" ry="4" fill="#c48575"/></g>
+  <path d="M16 60Q12 74 18 84M164 54Q174 69 165 83" stroke="#c4cbbc" stroke-width="1.5"/>
+</>}
+{kind==='games' && <>
+  <g class="doodle-cube"><path d="M37 49L91 24L146 46L95 72Z" fill="#edcf79" stroke="#717b6e" stroke-width="2"/>
+  <path d="M37 49L95 72L95 130L39 105Z" fill="#df9c87" stroke="#717b6e" stroke-width="2"/>
+  <path d="M95 72L146 46L144 105L95 130Z" fill="#b3c8aa" stroke="#717b6e" stroke-width="2"/>
+  <path d="M54 41L111 65M72 32L129 56M56 57L109 31M76 65L127 38M57 57L58 113M76 64L77 121M38 67L95 92M39 87L95 111M113 63L112 122M130 55L129 114M95 91L145 66M95 111L144 86" stroke="#7f8571" stroke-width="1.6"/>
+  <path d="M40 72L55 79L55 94L41 87Z" fill="#edcf79"/><path d="M78 69L91 75L92 89L78 83Z" fill="#a9c1c9"/><path d="M115 84L126 78L126 93L114 100Z" fill="#e7a18f"/>
+  <path d="M43 46L91 25M42 52L43 104" stroke="#fff6d9" stroke-width="1.3"/></g>
+  <path class="doodle-spark" d="M22 33L16 26M148 24L155 15M157 119L166 124" stroke="#879fb0" stroke-width="2"/>
+</>}
+{kind==='images' && <>
+  <path d="M28 30L151 26L156 122L26 126Z" fill="#e5bb80" stroke="#9e8965" stroke-width="2"/>
+  <path d="M36 39L143 35L146 115L35 118Z" fill="#fff9ed" stroke="#b39770" stroke-width="1.5"/>
+  <path d="M44 46L135 44L138 106L44 109Z" fill="#d4e3e4" stroke="#afc0b9" stroke-width="1"/>
+  <circle class="doodle-sun" cx="117" cy="62" r="10" fill="#edc665"/>
+  <path d="M44 92Q69 57 94 93Q117 70 138 96L138 106L44 109Z" fill="#9db393"/>
+  <path d="M44 100Q72 79 96 105Q116 88 138 100" stroke="#6d8a72" stroke-width="2"/>
+  <path d="M32 33L150 30M30 33L30 121" stroke="#f6deaa" stroke-width="1.6"/>
+  <path d="M74 23Q80 17 88 23L106 23L106 34L74 36Z" fill="#dda795" opacity=".8"/>
+  <path class="doodle-spark" d="M158 52L172 55M164 43L164 64" stroke="#b99559" stroke-width="1.8"/>
+</>}
+{kind==='video' && <>
+  <path class="doodle-aerial" d="M77 37L63 17M82 36L100 14" stroke="#8c8871" stroke-width="2"/>
+  <path d="M24 44Q88 35 151 43L152 117Q92 128 28 119Z" fill="#dfa18d" stroke="#9b7768" stroke-width="2"/>
+  <path d="M36 53Q76 47 122 52L122 108Q80 115 38 108Z" fill="#d9e7e4" stroke="#748d8c" stroke-width="2"/>
+  <path d="M44 59Q76 54 115 58M44 61L45 102" stroke="#f6fcf6" stroke-width="2"/>
+  <path class="doodle-play" d="M70 68L70 96L94 81Z" fill="#9eb5b0" stroke="#748d8c" stroke-width="1.5"/>
+  <circle cx="136" cy="60" r="5" fill="#efcb76" stroke="#9b7768" stroke-width="1.5"/><circle cx="136" cy="78" r="4" fill="#f5d0b2" stroke="#9b7768" stroke-width="1.5"/>
+  <path d="M133 93L144 93M133 99L144 99M134 106L144 105M40 124L38 131M131 123L134 131" stroke="#9b7768" stroke-width="2"/>
+  <path class="doodle-spark" d="M158 24L159 16M166 32L174 28" stroke="#95a58b" stroke-width="2"/>
+</>}
+{kind==='tools' && <>
+  <g class="doodle-pencils"><path d="M60 68L49 23L56 21L68 67Z" fill="#df9c86" stroke="#a48468" stroke-width="1.6"/><path d="M49 23L48 11L56 21" fill="#eee4c9" stroke="#a48468" stroke-width="1.6"/>
+  <path d="M88 66L101 19L108 22L96 69Z" fill="#eac56d" stroke="#a48468" stroke-width="1.6"/><path d="M101 19L107 11L108 22" fill="#eee4c9" stroke="#a48468" stroke-width="1.6"/>
+  <path d="M118 74L121 35Q116 26 122 20L131 31L139 21Q145 30 133 40L131 77Z" fill="#bdcdd2" stroke="#7f99a0" stroke-width="1.6"/></g>
+  <path d="M31 70L88 53L148 72L95 91Z" fill="#f2d58e" stroke="#a4906c" stroke-width="2"/>
+  <path d="M31 70L95 91L95 129L34 108Z" fill="#edddb3" stroke="#a4906c" stroke-width="2"/>
+  <path d="M95 91L148 72L145 111L95 129Z" fill="#d6c8a1" stroke="#a4906c" stroke-width="2"/>
+  <path d="M53 91L76 98L76 106L53 99Z" fill="#f8f3dc" stroke="#baa67e" stroke-width="1.2"/>
+  <path class="doodle-spark" d="M19 54L13 48M152 46L160 40" stroke="#c48575" stroke-width="2"/>
+</>}
+</svg>
