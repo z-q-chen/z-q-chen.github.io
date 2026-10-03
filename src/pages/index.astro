@@ -2,13 +2,20 @@
 import Layout from '../layouts/Layout.astro';
 import WorkCard from '../components/WorkCard.astro';
 import ArticleRow from '../components/ArticleRow.astro';
-import Sculpture from '../components/Sculpture.astro';
+import ArtScene from '../components/ArtScene.astro';
 import {getCollection} from 'astro:content';
 const works=(await getCollection('works',({data})=>!data.draft)).sort((a,b)=>Number(b.data.featured)-Number(a.data.featured)||b.data.date.valueOf()-a.data.date.valueOf()).slice(0,3);
 const articles=(await getCollection('articles',({data})=>!data.draft)).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf()).slice(0,4);
 ---
-<Layout>
-<section class="hero"><div class="hero-note"><span class="status-dot"></span><span>PERSONAL DIGITAL LAB</span></div><h1>ECHO<span class="title-dot">.</span></h1><Sculpture/><div class="hero-bottom"><p>做东西。<br/>写下来。</p><a href="/about/" class="hero-about" aria-label="关于 ECHO">关于我 <span>↗</span></a><span class="hero-coordinate" aria-hidden="true">01 — ∞</span></div></section>
-<section class="section"><div class="section-heading"><h2><span class="section-index">01</span>作品<span class="heading-en">WORKS</span></h2><a href="/works/" class="arrow-link" aria-label="查看全部作品">↗</a></div>{works.length ? <div class="work-grid">{works.map(work=><WorkCard work={work}/>)}</div> : <a href="/works/" class="gallery-empty" aria-label="作品，尚未发布"><span class="empty-art" aria-hidden="true"><i></i><i></i><i></i></span><span class="empty-caption">尚未发布 <span>↗</span></span></a>}</section>
-<section class="section writing-section"><div class="section-heading"><h2><span class="section-index">02</span>文章<span class="heading-en">WORDS</span></h2><a href="/articles/" class="arrow-link" aria-label="查看全部文章">↗</a></div>{articles.length ? <div class="article-list">{articles.map(article=><ArticleRow article={article}/>)}</div> : <a href="/articles/" class="writing-empty" aria-label="文章，尚未发布"><span aria-hidden="true">Aa<span class="writing-star">✳</span></span><span class="empty-caption">尚未发布 <span>↗</span></span></a>}</section>
+<Layout immersive>
+<section class="immersive-hero">
+  <ArtScene/>
+  <div class="hero-topline"><span><i></i> A SPACE IN MOTION</span><span>数字实验室 / 001</span></div>
+  <div class="hero-title"><p>MAKE / PLAY / THINK</p><h1>ECHO<span>✳</span></h1></div>
+  <div class="hero-baseline"><a class="scroll-cue" href="#collection" aria-label="探索作品与文章"><span>探索</span><span class="scroll-line"></span>↓</a><span class="interaction-hint">移动 · 点击 · 感受</span><a href="/about/" class="hero-about">关于我 <span>↗</span></a></div>
+</section>
+<div class="home-collection wrap" id="collection">
+<section class="section"><div class="section-heading"><h2><span class="section-index">01 /</span>作品<span class="heading-en">OBJECTS</span></h2><a href="/works/" class="arrow-link" aria-label="查看全部作品">↗</a></div>{works.length ? <div class="work-grid">{works.map(work=><WorkCard work={work}/>)}</div> : <a href="/works/" class="portal-empty portal-works" aria-label="作品，尚未发布"><span class="portal-art" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="portal-number" aria-hidden="true">01</span><span class="empty-caption">尚未发布 <span>↗</span></span></a>}</section>
+<section class="section writing-section"><div class="section-heading"><h2><span class="section-index">02 /</span>文章<span class="heading-en">WORDS</span></h2><a href="/articles/" class="arrow-link" aria-label="查看全部文章">↗</a></div>{articles.length ? <div class="article-list">{articles.map(article=><ArticleRow article={article}/>)}</div> : <a href="/articles/" class="portal-empty portal-words" aria-label="文章，尚未发布"><span class="word-art" aria-hidden="true">Aa<span>✳</span></span><span class="portal-number" aria-hidden="true">02</span><span class="empty-caption">尚未发布 <span>↗</span></span></a>}</section>
+</div>
 </Layout>

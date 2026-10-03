@@ -1,0 +1,13 @@
+---
+const {compact=false}=Astro.props;
+---
+<div class:list={['art-scene',{compact}]} data-art-scene>
+  <div class="art-ambient" aria-hidden="true"></div>
+  <canvas aria-hidden="true"></canvas>
+  <div class="art-grain" aria-hidden="true"></div>
+  <button class="motion-control" type="button" aria-label="暂停动画" aria-pressed="false" hidden><span class="motion-icon" aria-hidden="true">Ⅱ</span><span class="motion-label">LIVE</span></button>
+</div>
+<script>
+import {mountArt} from '../scripts/art-scene';
+document.querySelectorAll<HTMLElement>('[data-art-scene]').forEach(mountArt);
+</script>
