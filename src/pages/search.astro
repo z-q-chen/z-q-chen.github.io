@@ -1,0 +1,12 @@
+---
+import Layout from '../layouts/Layout.astro';
+import {getCollection} from 'astro:content';
+import {dateLabel} from '../lib/editorial';
+const entries=[...(await getCollection('articles',({data})=>!data.draft)).map(a=>({...a,type:'文章',url:`/articles/${a.id}/`})),...(await getCollection('works',({data})=>!data.draft)).map(w=>({...w,type:'作品',url:`/works/${w.id}/`}))].sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf());
+---
+<Layout title="搜索 · ECHO" noindex><header class="page-heading"><p class="eyebrow">FOLLOW A THOUGHT</p><h1>找点什么<span class="accent">.</span></h1><p>搜索标题、简介和标签。也许会遇见一个新的问题。</p></header><div class="page-content"><form class="search-form" action="/search/" method="get" role="search"><input type="search" name="q" aria-label="搜索文章和作品" placeholder="输入一个关键词…" autocomplete="off"/><button aria-label="搜索" type="submit"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6.5"/><path d="m15 15 6 6"/></svg></button></form><p class="search-status" aria-live="polite" data-search-status></p><div>{entries.map(entry=><a class="search-result" href={entry.url} data-search-text={[entry.data.title,entry.data.description,...entry.data.tags].join(' ').toLocaleLowerCase()}><div class="post-meta"><span class="post-kind">{entry.type}</span><time datetime={entry.data.date.toISOString()}>{dateLabel(entry.data.date)}</time></div><h2>{entry.data.title}</h2><p>{entry.data.description}</p></a>)}</div><p class="search-empty" data-search-empty hidden>还没有找到。换个词试试？</p></div></Layout>
+<script>
+const input=document.querySelector<HTMLInputElement>('input[name=q]');const results=[...document.querySelectorAll<HTMLElement>('[data-search-text]')];const status=document.querySelector<HTMLElement>('[data-search-status]');const empty=document.querySelector<HTMLElement>('[data-search-empty]');
+function search(){const query=input?.value.trim()||'';const terms=query.toLocaleLowerCase().split(/\s+/).filter(Boolean);let count=0;results.forEach(result=>{const match=terms.every(term=>result.dataset.searchText?.includes(term));result.hidden=!match;if(match)count++;});if(status)status.textContent=query?`找到 ${count} 条结果`:`全部内容 · ${count} 条`;if(empty)empty.hidden=count>0;const url=new URL(location.href);if(query)url.searchParams.set('q',query);else url.searchParams.delete('q');history.replaceState(null,'',url);}
+if(input){input.value=new URLSearchParams(location.search).get('q')||'';input.addEventListener('input',search);}search();
+</script>

@@ -1,26 +1,21 @@
 ---
-import ArtLayout from '../layouts/ArtLayout.astro';
-import ChannelShelf from '../components/ChannelShelf.astro';
-import EchoPortrait from '../components/EchoPortrait.astro';
+import Layout from '../layouts/Layout.astro';
+import EditorialArt from '../components/EditorialArt.astro';
+import ArticleRow from '../components/ArticleRow.astro';
+import WorkCard from '../components/WorkCard.astro';
+import {getCollection} from 'astro:content';
+import {channels} from '../data/channels';
+const articles=(await getCollection('articles',({data})=>!data.draft)).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf());
+const works=(await getCollection('works',({data})=>!data.draft)).sort((a,b)=>Number(b.data.featured)-Number(a.data.featured)||b.data.date.valueOf()-a.data.date.valueOf());
+const tags=[...new Set(articles.flatMap(a=>a.data.tags))].slice(0,6);
 ---
-<ArtLayout>
-<h1 class="sr-only">ECHO 的手绘小站</h1><span class="art-signature" lang="en">echo.</span>
-<a class="art-profile" href="/about/" data-profile-open aria-label="查看 ECHO 的简介"><EchoPortrait/></a>
-<div class="art-board"><ChannelShelf includeBook iconOnly/><svg class="art-ground" viewBox="0 0 900 24" aria-hidden="true"><path d="M5 12Q170 7 310 13T591 11T895 13M64 20Q240 17 396 21M656 18L814 20"/></svg></div>
-<button class="art-motion" data-art-motion type="button" aria-label="暂停动效" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><g data-pause><path d="M8 5L7 19M17 5L16 19"/></g><path data-play d="M8 5L8 19L19 12Z"/></svg></button>
-<dialog class="profile-card" aria-labelledby="profile-title" data-profile-card><div class="profile-paper"><button type="button" class="profile-close" data-profile-close aria-label="关闭简介"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M17 6L6 18"/></svg></button><EchoPortrait/><h2 id="profile-title" lang="en">hello, I'm echo.</h2><p>写字，做东西，偶尔走神。</p><p>这里会慢慢装下我的创作。</p><div class="profile-links"><a href="/about/" aria-label="查看完整简介"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5Q8 3 12 6Q16 3 21 5L20 20Q16 18 12 21Q8 18 4 20ZM12 6V20"/></svg></a><a href="https://github.com/z-q-chen" aria-label="ECHO 的 GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3L3 8L8 13M16 11L21 16L16 21M14 4L10 20"/></svg></a></div></div></dialog>
-</ArtLayout>
-<script>
-import {legacyEntries} from '../data/channels';
-const old=legacyEntries.find(entry=>entry.id===location.hash.slice(1));if(old)location.replace(old.href);
-const card=document.querySelector<HTMLDialogElement>('[data-profile-card]')!;
-const opener=document.querySelector<HTMLAnchorElement>('[data-profile-open]')!;
-opener.addEventListener('click',event=>{if(event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();card.showModal();});
-document.querySelector('[data-profile-close]')!.addEventListener('click',()=>card.close());
-card.addEventListener('click',event=>{if(event.target===card){const r=card.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)card.close();}});
-card.addEventListener('close',()=>opener.focus({preventScroll:true}));
-const toggle=document.querySelector<HTMLButtonElement>('[data-art-motion]')!;
-const preference=matchMedia('(prefers-reduced-motion:reduce)');let paused=preference.matches;
-function sync(){document.body.dataset.motion=paused?'paused':'running';toggle.setAttribute('aria-pressed',String(paused));toggle.setAttribute('aria-label',paused?'开启动效':'暂停动效');}
-toggle.addEventListener('click',()=>{paused=!paused;sync();});preference.addEventListener('change',e=>{paused=e.matches;sync();});sync();
-</script>
+<Layout active="home">
+<section class="journal-hero"><div class="hero-copy"><p class="eyebrow"><span class="status-dot"></span>NOTES & SMALL THINGS</p><h1>保持好奇，<br/>慢慢<span class="hero-accent">成形。</span></h1><p class="hero-lede">写下思考与教程，<br class="mobile-break"/>收好做出来的东西。</p><a class="text-link hero-link" href={articles.length?`/articles/${articles[0].id}/`:'/articles/'}>开始阅读 <span aria-hidden="true">↗</span></a></div><div class="hero-art"><EditorialArt/><span class="art-caption" lang="en">a work in progress, always.</span></div></section>
+<div class="home-grid"><div class="home-main"><section class="journal-section"><div class="section-heading"><div><p class="eyebrow">THE JOURNAL</p><h2>最近写下的<span class="section-count">{String(articles.length).padStart(2,'0')}</span></h2></div><a class="text-link" href="/articles/">全部文章 ↗</a></div>{articles.length?<div class="article-list">{articles.slice(0,4).map(article=><ArticleRow article={article}/>)}</div>:<div class="empty-state"><p>第一篇，慢慢写。</p></div>}</section>
+<section class="journal-section"><div class="section-heading"><div><p class="eyebrow">MADE WITH CURIOSITY</p><h2>做出来的东西<span class="section-count">{String(works.length).padStart(2,'0')}</span></h2></div><a class="text-link" href="/works/">所有作品 ↗</a></div>{works.length?<div class="work-grid home-work-grid">{works.slice(0,2).map(work=><WorkCard work={work}/>)}</div>:<a class="work-placeholder" href="/works/"><svg viewBox="0 0 70 70" aria-hidden="true"><path d="M12 22L29 13L58 24L41 35ZM12 22L41 35L41 59L13 46ZM41 35L58 24L57 48L41 59Z"/><path d="M22 18L49 29L49 39"/></svg><div><h3>给下一件作品，留一块地方。</h3><p>成品发布后，会收在这里。</p></div><span aria-hidden="true">↗</span></a>}</section></div>
+<aside class="home-aside"><section class="author-note"><div class="author-top"><span class="author-seal" aria-hidden="true">e.</span><div><p class="eyebrow">THE PERSON BEHIND</p><h2>ECHO</h2></div></div><p>写一点想法，做一些小东西。<br/>这里是一份持续生长的个人记录。</p><a class="text-link" href="/about/">认识一下 ↗</a><svg class="note-sprig" viewBox="0 0 70 85" aria-hidden="true"><path d="M21 80Q40 49 45 10M34 58Q12 57 14 38Q29 36 34 58M42 36Q64 34 61 17Q45 16 42 36"/></svg></section>
+<section class="aside-section"><p class="eyebrow">EXPLORE</p><div class="aside-channels">{channels.map((c,i)=><a href={`/collections/${c.id}/`}><span class="channel-number">0{i+1}</span>{c.label}<span aria-hidden="true">↗</span></a>)}</div></section>
+{tags.length>0&&<section class="aside-section"><p class="eyebrow">TOPICS</p><div class="topic-links">{tags.map(tag=><a href={`/articles/?tag=${encodeURIComponent(tag)}`}>{tag}</a>)}</div></section>}
+<a class="rss-note" href="/feed.xml"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="19" r="1.5"/><path d="M4 11C9 11 13 15 13 20M4 4C13 4 20 11 20 20"/></svg><span>用 RSS，慢慢读。<small>更新时再相见。</small></span></a></aside></div>
+</Layout>
+<script>import {legacyEntries} from '../data/channels';const old=legacyEntries.find(entry=>entry.id===location.hash.slice(1));if(old)location.replace(old.href);</script>

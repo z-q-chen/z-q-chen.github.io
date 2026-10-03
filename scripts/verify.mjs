@@ -21,12 +21,10 @@ for(const page of ['index.html','works/index.html','articles/index.html','about/
 console.log(`Verified ${html.length} HTML pages and ${links} local links/assets. New sections exist; retired material is absent from public collections.`);
 
 const home=await readFile(path.join(root,'index.html'),'utf8');
-for(const entry of ['book','music','games','images','video','tools'])assert.ok(home.includes(`data-doodle-entry="${entry}"`),`Missing hand-drawn entrance: ${entry}`);
 for(const channel of ['music','games','images','video','tools'])assert.ok(files.includes(path.join(root,`collections/${channel}/index.html`)),`Missing channel route: ${channel}`);
-assert.ok(!home.includes('data-portal-stage')&&!home.includes('/room/')&&!home.includes('.webp'),'Homepage must use native hand-drawn vectors, without cutout rooms');
 assert.ok(!sitemap.includes('/room/'),'Retired room routes must not be advertised');
-console.log('Verified six hand-drawn entrances, five category pages and removal of the cutout room.');
-
-assert.ok(home.includes('data-profile-open')&&home.includes('data-profile-card'),'Missing illustrated profile entry and dialog');
-assert.ok(!home.includes('entry-label')&&!home.includes('hero-copy')&&!home.includes('site-header')&&!home.includes('class="wrap footer"'),'Homepage must show the six objects without visible labels, hero copy or traditional navigation');
-console.log('Verified object-only homepage and illustrated profile entry.');
+assert.ok(home.includes('site-header')&&home.includes('最近写下')&&home.includes('/articles/about-this-space/'),'Blog homepage must include navigation and its published opening note');
+assert.ok(files.includes(path.join(root,'search/index.html')),'Missing search page');
+const post=await readFile(path.join(root,'articles/about-this-space/index.html'),'utf8');
+assert.ok(post.includes('reading-progress')&&post.includes('article-toc'),'Article must include reading tools');
+console.log('Verified editorial blog, opening note, reading tools, search and five product categories.');

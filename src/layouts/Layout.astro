@@ -1,25 +1,17 @@
 ---
-import '../styles/global.css';
-import '../styles/shelves.css';
-import MarginDoodles from '../components/MarginDoodles.astro';
-import PageSketch from '../components/PageSketch.astro';
-const {title='ECHO · 小小实验室', description='ECHO 的作品与文字。', active=''}=Astro.props;
-const nav=[['/works/','作品','works'],['/articles/','文章','articles'],['/about/','关于','about']];
+import '../styles/editorial.css';
+const {title='ECHO · 关于好奇与创造',description='ECHO 的个人博客。记录思考与教程，收纳作品与小实验。',active='',noindex=false}=Astro.props;
+const nav=[['/','首页','home'],['/articles/','文章','articles'],['/works/','作品','works'],['/about/','关于','about']];
 ---
-<!doctype html>
-<html lang="zh-CN">
-<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="description" content={description}/><meta name="theme-color" content="#f8f5ed"/><title>{title}</title><link rel="icon" href="/favicon.svg" type="image/svg+xml"/><link rel="canonical" href={new URL(Astro.url.pathname,Astro.site)}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:type" content="website"/><meta property="og:url" content={new URL(Astro.url.pathname,Astro.site)}/><link rel="alternate" type="application/rss+xml" title="ECHO · 文章" href="/feed.xml"/></head>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="description" content={description}/><meta name="theme-color" content="#f6f5ef"/><title>{title}</title><link rel="icon" href="/favicon.svg" type="image/svg+xml"/><link rel="canonical" href={new URL(Astro.url.pathname,Astro.site)}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:type" content="website"/><meta property="og:url" content={new URL(Astro.url.pathname,Astro.site)}/><link rel="alternate" type="application/rss+xml" title="ECHO · 文章" href="/feed.xml"/>{noindex&&<meta name="robots" content="noindex,follow"/>}</head>
 <body><a class="skip" href="#main">跳到内容</a>
-<header class="site-header wrap"><a class="brand" href="/" aria-label="ECHO 首页"><span>echo<span class="brand-dot">.</span></span><svg viewBox="0 0 70 12" aria-hidden="true"><path d="M3 7Q20 3 35 6T67 5M12 10Q32 6 55 8"/></svg></a><nav aria-label="主导航">{nav.map(([url,label,key])=><a href={url} aria-current={active===key?'page':undefined}>{label}</a>)}</nav></header>
+<header class="site-header"><div class="header-inner wrap"><a class="brand" href="/" aria-label="ECHO 首页"><span>echo<span class="brand-dot">.</span></span><small>A PERSONAL JOURNAL</small></a><div class="header-right"><nav aria-label="主导航">{nav.map(([url,label,key])=><a href={url} aria-current={active===key?'page':undefined}>{label}</a>)}</nav><a class="search-link" href="/search/" aria-label="搜索文章和作品"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg></a></div></div></header>
 <main id="main" class="wrap"><slot/></main>
-<footer class="wrap footer"><MarginDoodles spot="footer"/><span>© {new Date().getFullYear()} ECHO <span class="footer-flower" aria-hidden="true">✿</span></span><div><button class="sketch-toggle" data-sketch-toggle type="button" aria-pressed="false" hidden>涂两笔 ✎</button><button class="motion-toggle" type="button" aria-label="暂停动效" aria-pressed="false" hidden>动效 <span>开</span></button><a href="/feed.xml">RSS ↗</a><a href="https://github.com/z-q-chen">GitHub ↗</a></div></footer>
-<PageSketch/>
+<footer class="site-footer wrap"><div><a class="footer-brand" href="/">echo.</a><span>© {new Date().getFullYear()} ECHO</span></div><p lang="en">Keep a little wonder.</p><nav aria-label="页脚导航"><button type="button" class="motion-toggle" aria-label="暂停动效" aria-pressed="false" hidden>动效 <span>开</span></button><a href="/feed.xml">RSS ↗</a><a href="https://github.com/z-q-chen">GitHub ↗</a></nav></footer>
 <script>
-const button=document.querySelector<HTMLButtonElement>('.motion-toggle');
-const preference=matchMedia('(prefers-reduced-motion: reduce)');
-let paused=preference.matches;
-function sync(){document.body.dataset.motion=paused?'paused':'running';if(button){button.setAttribute('aria-label',paused?'开启动效':'暂停动效');button.setAttribute('aria-pressed',String(paused));button.querySelector('span')!.textContent=paused?'关':'开';}}
-if(button){button.hidden=false;button.addEventListener('click',()=>{paused=!paused;sync();});}
-preference.addEventListener('change',e=>{paused=e.matches;sync();});sync();
+const toggle=document.querySelector<HTMLButtonElement>('.motion-toggle')!;const preference=matchMedia('(prefers-reduced-motion:reduce)');let saved:string|null=null;try{saved=localStorage.getItem('echo-motion');}catch{}let paused=saved?saved==='paused':preference.matches;
+function sync(){document.body.dataset.motion=paused?'paused':'running';toggle.setAttribute('aria-pressed',String(paused));toggle.setAttribute('aria-label',paused?'开启动效':'暂停动效');toggle.querySelector('span')!.textContent=paused?'关':'开';}
+toggle.hidden=false;toggle.addEventListener('click',()=>{paused=!paused;try{localStorage.setItem('echo-motion',paused?'paused':'running');}catch{}sync();});preference.addEventListener('change',e=>{try{saved=localStorage.getItem('echo-motion');}catch{}if(!saved){paused=e.matches;sync();}});sync();
+document.addEventListener('keydown',e=>{const target=e.target as HTMLElement;if(e.key==='/'&&!e.metaKey&&!e.ctrlKey&&!e.altKey&&!target.closest('input,textarea,select')&&!target.isContentEditable){e.preventDefault();location.assign('/search/');}});
 </script>
 </body></html>

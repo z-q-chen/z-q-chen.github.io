@@ -1,7 +1,4 @@
 ---
 const {work}=Astro.props;
 ---
-<a class="work-card" href={`/works/${work.id}/`}>
-{work.data.cover ? <img class="work-cover" src={work.data.cover} alt="" loading="lazy"/> : <div class="work-cover work-type" aria-hidden="true"><span>{work.data.kind}</span><i>↗</i></div>}
-<div class="card-body"><div class="card-meta"><span>{work.data.kind}</span><time datetime={work.data.date.toISOString()}>{work.data.date.toISOString().slice(0,10)}</time></div><h3>{work.data.title}<span>↗</span></h3><p>{work.data.description}</p><div class="tags">{work.data.tags.map((t:string)=><span class="pill">{t}</span>)}</div></div>
-</a>
+<a class="work-card" href={`/works/${work.id}/`}>{work.data.cover?<img class="work-cover" src={work.data.cover} alt="" loading="lazy"/>:<div class="work-cover work-type" aria-hidden="true"><span>{work.data.kind}</span><i>↗</i></div>}<div class="card-body"><div class="post-meta"><span>{work.data.kind}</span><time datetime={work.data.date.toISOString()}>{work.data.date.toISOString().slice(0,10)}</time></div><h3>{work.data.title}<span aria-hidden="true">↗</span></h3><p>{work.data.description}</p><div class="tags">{work.data.tags.map((tag:string)=><span>#{tag}</span>)}</div></div></a>

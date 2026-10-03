@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import SectionDoodle from '../../components/SectionDoodle.astro';
+import ChannelNav from '../../components/ChannelNav.astro';
+import EditorialArt from '../../components/EditorialArt.astro';
 import WorkCard from '../../components/WorkCard.astro';
 import {channels,channelOf} from '../../data/channels';
 import {getCollection} from 'astro:content';
@@ -8,6 +9,4 @@ export function getStaticPaths(){return channels.map(channel=>({params:{channel:
 const {channel}=Astro.props;
 const works=(await getCollection('works',({data})=>!data.draft&&channelOf(data)===channel.id)).sort((a,b)=>Number(b.data.featured)-Number(a.data.featured)||b.data.date.valueOf()-a.data.date.valueOf());
 ---
-<Layout title={`${channel.label} · ECHO`} active="works"><header class="page-intro channel-heading"><SectionDoodle kind={channel.icon}/><div><p class="eyebrow">{channel.note}</p><h1>{channel.label}<span class="accent">.</span></h1></div></header><div class="page-content">
-{works.length?<div class="work-grid">{works.map(work=><WorkCard work={work}/>)}</div>:<div class="collection-empty channel-empty"><SectionDoodle kind={channel.icon}/><h2>{channel.empty}</h2><p>尚未发布</p></div>}
-<a href="/works/" class="collection-back">← 所有作品</a></div></Layout>
+<Layout title={`${channel.label} · ECHO`} active="works"><header class="page-heading"><p class="eyebrow">THINGS I MAKE / {channel.id.toUpperCase()}</p><h1>{channel.label}<span class="accent">.</span></h1><p>{channel.note}。</p></header><div class="page-content"><ChannelNav current={channel.id}/>{works.length?<div class="work-grid">{works.map(work=><WorkCard work={work}/>)}</div>:<div class="empty-state work-empty"><EditorialArt small/><h2>{channel.empty}</h2><p>完成的作品会出现在这里。</p><a class="text-link" href="/works/">所有作品 <span>↗</span></a></div>}</div></Layout>

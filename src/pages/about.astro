@@ -1,6 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import DoodleGarden from '../components/DoodleGarden.astro';
-import MarginDoodles from '../components/MarginDoodles.astro';
+import EditorialArt from '../components/EditorialArt.astro';
 ---
-<Layout title="关于 · ECHO" active="about"><section class="paper-hero about-hero"><MarginDoodles spot="hero"/><div class="hero-copy"><p class="hello">很高兴你来这里 <span aria-hidden="true">☺</span></p><h1>我是 <span class="pencil-underline">ECHO。</span></h1><p class="hero-caption">做东西，写下来。<br/>这里装着我的好奇心。</p><div class="about-links"><a class="hand-link" href="/works/">作品 ↗</a><a class="hand-link" href="/articles/">文章 ↗</a><a class="hand-link" href="https://github.com/z-q-chen">GitHub ↗</a></div></div><DoodleGarden/></section></Layout>
+<Layout title="关于 · ECHO" active="about"><div class="about-layout"><section class="about-copy"><p class="eyebrow">A LITTLE ABOUT ME</p><h1>你好，我是 ECHO<span class="accent">.</span></h1><p>这个名字背后，是一个想把好奇心留久一点的人。</p><p>我在这里写下思考与学习的过程，也把做好的东西放上来。文字不必宏大，作品不必庞大；能留下一个有用的方法，或一个值得回看的瞬间，就很好。</p><h2>这片地方</h2><p>文章存放在这份博客里。作品各自在自己的仓库生长，发布之后，再从这里走进去。</p><p>它没有固定的更新节奏。新的问题、新的尝试，慢慢成为新的篇章。</p><div class="about-links"><a class="text-link" href="/articles/">读一篇文章 <span>↗</span></a><a class="text-link" href="https://github.com/z-q-chen" target="_blank" rel="noopener noreferrer">GitHub <span>↗</span></a><a class="text-link" href="/feed.xml">RSS <span>↗</span></a></div></section><aside class="about-art"><EditorialArt/><p class="about-quote">A little space to grow.</p></aside></div></Layout>
