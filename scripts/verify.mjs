@@ -26,3 +26,7 @@ for(const channel of ['music','games','images','video','tools'])assert.ok(files.
 assert.ok(!home.includes('data-portal-stage')&&!home.includes('/room/')&&!home.includes('.webp'),'Homepage must use native hand-drawn vectors, without cutout rooms');
 assert.ok(!sitemap.includes('/room/'),'Retired room routes must not be advertised');
 console.log('Verified six hand-drawn entrances, five category pages and removal of the cutout room.');
+
+assert.ok(home.includes('data-profile-open')&&home.includes('data-profile-card'),'Missing illustrated profile entry and dialog');
+assert.ok(!home.includes('entry-label')&&!home.includes('hero-copy')&&!home.includes('site-header')&&!home.includes('class="wrap footer"'),'Homepage must show the six objects without visible labels, hero copy or traditional navigation');
+console.log('Verified object-only homepage and illustrated profile entry.');

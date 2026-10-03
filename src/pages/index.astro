@@ -1,27 +1,26 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import WorkCard from '../components/WorkCard.astro';
-import ArticleRow from '../components/ArticleRow.astro';
-import DoodleGarden from '../components/DoodleGarden.astro';
+import ArtLayout from '../layouts/ArtLayout.astro';
 import ChannelShelf from '../components/ChannelShelf.astro';
-import MarginDoodles from '../components/MarginDoodles.astro';
-import {getCollection} from 'astro:content';
-const articles=(await getCollection('articles',({data})=>!data.draft)).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf()).slice(0,4);
-const works=(await getCollection('works',({data})=>!data.draft)).sort((a,b)=>Number(b.data.featured)-Number(a.data.featured)||b.data.date.valueOf()-a.data.date.valueOf()).slice(0,3);
+import EchoPortrait from '../components/EchoPortrait.astro';
 ---
-<Layout>
-<section class="paper-hero"><MarginDoodles spot="hero"/>
-  <div class="hero-copy"><p class="hello">你好，我是 ECHO <span aria-hidden="true">☺</span></p><h1>一点好奇，<br/><span class="pencil-underline">一些新东西。</span></h1><p class="hero-caption">做东西，写下来。慢慢长大。</p><a href="/about/" class="hand-link">认识一下 <span>↗</span></a></div>
-  <DoodleGarden/><span class="margin-note" aria-hidden="true">a little space to grow</span>
-</section>
-<div id="collection" class="home-collection"><div class="shelf-intro"><span>随手翻翻</span><a href="/works/">所有作品 ↗</a></div><ChannelShelf includeBook/>
-{works.length>0&&<section class="section"><div class="section-heading"><h2>新东西</h2><a href="/works/" class="arrow-link" aria-label="查看全部作品">↗</a></div><div class="work-grid">{works.map(work=><WorkCard work={work}/>)}</div></section>}
-{articles.length>0&&<section class="section"><div class="section-heading"><h2>新写的</h2><a href="/articles/" class="arrow-link" aria-label="查看全部文章">↗</a></div><div class="article-list">{articles.map(article=><ArticleRow article={article}/>)}</div></section>}
-</div>
-</Layout>
-
+<ArtLayout>
+<h1 class="sr-only">ECHO 的手绘小站</h1><span class="art-signature" lang="en">echo.</span>
+<a class="art-profile" href="/about/" data-profile-open aria-label="查看 ECHO 的简介"><EchoPortrait/></a>
+<div class="art-board"><ChannelShelf includeBook iconOnly/><svg class="art-ground" viewBox="0 0 900 24" aria-hidden="true"><path d="M5 12Q170 7 310 13T591 11T895 13M64 20Q240 17 396 21M656 18L814 20"/></svg></div>
+<button class="art-motion" data-art-motion type="button" aria-label="暂停动效" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><g data-pause><path d="M8 5L7 19M17 5L16 19"/></g><path data-play d="M8 5L8 19L19 12Z"/></svg></button>
+<dialog class="profile-card" aria-labelledby="profile-title" data-profile-card><div class="profile-paper"><button type="button" class="profile-close" data-profile-close aria-label="关闭简介"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6L18 18M17 6L6 18"/></svg></button><EchoPortrait/><h2 id="profile-title" lang="en">hello, I'm echo.</h2><p>写字，做东西，偶尔走神。</p><p>这里会慢慢装下我的创作。</p><div class="profile-links"><a href="/about/" aria-label="查看完整简介"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5Q8 3 12 6Q16 3 21 5L20 20Q16 18 12 21Q8 18 4 20ZM12 6V20"/></svg></a><a href="https://github.com/z-q-chen" aria-label="ECHO 的 GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3L3 8L8 13M16 11L21 16L16 21M14 4L10 20"/></svg></a></div></div></dialog>
+</ArtLayout>
 <script>
 import {legacyEntries} from '../data/channels';
-const old=legacyEntries.find(entry=>entry.id===location.hash.slice(1));
-if(old)location.replace(old.href);
+const old=legacyEntries.find(entry=>entry.id===location.hash.slice(1));if(old)location.replace(old.href);
+const card=document.querySelector<HTMLDialogElement>('[data-profile-card]')!;
+const opener=document.querySelector<HTMLAnchorElement>('[data-profile-open]')!;
+opener.addEventListener('click',event=>{if(event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();card.showModal();});
+document.querySelector('[data-profile-close]')!.addEventListener('click',()=>card.close());
+card.addEventListener('click',event=>{if(event.target===card){const r=card.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)card.close();}});
+card.addEventListener('close',()=>opener.focus({preventScroll:true}));
+const toggle=document.querySelector<HTMLButtonElement>('[data-art-motion]')!;
+const preference=matchMedia('(prefers-reduced-motion:reduce)');let paused=preference.matches;
+function sync(){document.body.dataset.motion=paused?'paused':'running';toggle.setAttribute('aria-pressed',String(paused));toggle.setAttribute('aria-label',paused?'开启动效':'暂停动效');}
+toggle.addEventListener('click',()=>{paused=!paused;sync();});preference.addEventListener('change',e=>{paused=e.matches;sync();});sync();
 </script>

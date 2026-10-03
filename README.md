@@ -1,6 +1,6 @@
 # ECHO · 手绘小站
 
-奶油色纸张、留白与直接绘制的 SVG 插画。主页用本子、耳机、魔方、画框、电视与工具盒分别代表文章、音乐、游戏、图像、影像和工具；没有预生成画面或抠图拼接。图标有轻微独立动作与悬停反馈，点击进入普通内容页面。
+奶油色纸张、留白与直接绘制的 SVG 插画。主页以本子、耳机、魔方、画框、电视与工具盒为主体，分别进入文章、音乐、游戏、图像、影像和工具。只留少量花体英文 echo.，不显示标题、导航、标签、说明或文字页脚。页角小猫耳头像可打开 ECHO 的简介。没有预生成画面或抠图拼接，保留轻微动作与悬停反馈。
 
 ## 本地使用
 
@@ -13,12 +13,14 @@ npm run verify
 npm run preview
 ```
 
-开发使用 `npm run dev`。无外部字体、动画库、统计脚本或图片服务。页面底部可暂停动效，也尊重系统减少动态偏好；“涂两笔”可临时在页边绘画，刷新后清除。
+开发使用 `npm run dev`。无外部字体、动画库、统计脚本或图片服务。首页角落的图形按钮可暂停动效，也尊重系统减少动态偏好；其他内容页保留“涂两笔”，可临时在页边绘画，刷新后清除。
 
 ## 首页与插画
 
-- `src/pages/index.astro`：恢复纸张手绘构图，显示六个图形入口和最新已发布内容。
+- `src/pages/index.astro`：仅展示六个大图形入口、小头像和图形动效开关。
 - `src/components/SectionDoodle.astro`：六种直接绘制的 SVG 图标。
+- `src/components/EchoPortrait.astro`：直接绘制的小猫耳头像。
+- `src/layouts/ArtLayout.astro`、`src/styles/art-home.css`：纯图形首页布局与简介卡片。
 - `src/components/ChannelShelf.astro`：图形入口，首页展示六项，作品总页展示五个产品分类。
 - `src/components/DoodleGarden.astro`：原版花、太阳、书本、纸飞机插画与互动。
 - `src/styles/global.css`、`src/styles/shelves.css`：纸张视觉、排版、响应布局和图标动作。
@@ -32,15 +34,15 @@ npm run preview
 
 复制 `templates/article.md` 到 `src/content/articles/文章名.md`，填写标题、摘要、日期及正文，`kind` 可选思考、教程、开发记录、随笔。准备发布后设置 `draft: false`。
 
-文章会进入主页的最新文章、文章列表、详情页、RSS 与 sitemap。文件名决定网址，发布后尽量保持稳定。草稿和模板不进入公开集合。
+文章会进入文章列表、详情页、RSS 与 sitemap，首页通过本子访问。文件名决定网址，发布后尽量保持稳定。草稿和模板不进入公开集合。
 
 ## 成品在独立仓库开发
 
 每件产品继续用独立仓库，可部署到 `https://z-q-chen.github.io/仓库名/`；产品的构建基础路径须设置为对应子路径。主站不负责构建产品。
 
-复制 `templates/work.md` 到 `src/content/works/作品名.md`，`experience` 填真实产品网址，`source` 填仓库地址，`channel` 选 `music`、`games`、`images`、`video` 或 `tools`，完成后设 `draft: false`。`featured: true` 的作品优先出现在主页。可选 `cover` 指向 public 下的本地封面。
+复制 `templates/work.md` 到 `src/content/works/作品名.md`，`experience` 填真实产品网址，`source` 填仓库地址，`channel` 选 `music`、`games`、`images`、`video` 或 `tools`，完成后设 `draft: false`。`featured: true` 的作品优先出现在对应分类。可选 `cover` 指向 public 下的本地封面。
 
-成品自动进入对应图标分类、作品总页与详情页；最新/精选内容也出现在主页。未填 `channel` 时，游戏和交互实验归 games，动画归 video，其余归 tools。分类路径放在 /collections 下，不占用产品的 /XXX/ 路径。
+成品自动进入对应图标分类、作品总页与详情页；首页通过对应图形访问内容，不展示文字预览。未填 `channel` 时，游戏和交互实验归 games，动画归 video，其余归 tools。分类路径放在 /collections 下，不占用产品的 /XXX/ 路径。
 
 GitHub Pages 承载静态前端；需要生成、账户或存储的产品连接独立后端。
 
