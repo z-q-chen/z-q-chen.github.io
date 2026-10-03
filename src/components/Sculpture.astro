@@ -1,0 +1,6 @@
+---
+const {small=false}=Astro.props;
+---
+<div class:list={['sculpture',{small}]} aria-hidden="true">
+<svg viewBox="0 0 600 600" fill="none"><defs><radialGradient id="orb"><stop stop-color="#eae5ff"/><stop offset=".35" stop-color="#bca4ff"/><stop offset=".7" stop-color="#7046d2"/><stop offset="1" stop-color="#1d1432"/></radialGradient><linearGradient id="metal" x1="50" y1="50" x2="560" y2="530" gradientUnits="userSpaceOnUse"><stop stop-color="#c1afed"/><stop offset=".3" stop-color="#f5efff"/><stop offset=".52" stop-color="#594d72"/><stop offset=".74" stop-color="#dbccfa"/><stop offset="1" stop-color="#45365f"/></linearGradient><radialGradient id="halo"><stop stop-color="#774aff" stop-opacity=".23"/><stop offset="1" stop-color="#774aff" stop-opacity="0"/></radialGradient></defs><circle cx="300" cy="300" r="290" fill="url(#halo)"/><g class="sculpture-lines">{Array.from({length:24},(_,i)=><ellipse cx="300" cy="300" rx={210-i*2.7} ry={30+i*6.1} transform={`rotate(${i*7.5} 300 300)`} stroke="url(#metal)" stroke-width="1.2"/>)}</g><circle cx="300" cy="300" r="39" fill="url(#orb)"/><circle cx="490" cy="388" r="7" fill="#d3beff"/></svg>
+</div>
