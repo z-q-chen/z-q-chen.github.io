@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import MarginDoodles from '../components/MarginDoodles.astro';
+import PageSketch from '../components/PageSketch.astro';
 const {title='ECHO · 小小实验室', description='ECHO 的作品与文字。', active=''}=Astro.props;
 const nav=[['/works/','作品','works'],['/articles/','文章','articles'],['/about/','关于','about']];
 ---
@@ -9,7 +11,8 @@ const nav=[['/works/','作品','works'],['/articles/','文章','articles'],['/ab
 <body><a class="skip" href="#main">跳到内容</a>
 <header class="site-header wrap"><a class="brand" href="/" aria-label="ECHO 首页"><span>echo<span class="brand-dot">.</span></span><svg viewBox="0 0 70 12" aria-hidden="true"><path d="M3 7Q20 3 35 6T67 5M12 10Q32 6 55 8"/></svg></a><nav aria-label="主导航">{nav.map(([url,label,key])=><a href={url} aria-current={active===key?'page':undefined}>{label}</a>)}</nav></header>
 <main id="main" class="wrap"><slot/></main>
-<footer class="wrap footer"><span>© {new Date().getFullYear()} ECHO <span class="footer-flower" aria-hidden="true">✿</span></span><div><button class="motion-toggle" type="button" aria-label="暂停动效" aria-pressed="false" hidden>动效 <span>开</span></button><a href="/feed.xml">RSS ↗</a><a href="https://github.com/z-q-chen">GitHub ↗</a></div></footer>
+<footer class="wrap footer"><MarginDoodles spot="footer"/><span>© {new Date().getFullYear()} ECHO <span class="footer-flower" aria-hidden="true">✿</span></span><div><button class="sketch-toggle" data-sketch-toggle type="button" aria-pressed="false" hidden>涂两笔 ✎</button><button class="motion-toggle" type="button" aria-label="暂停动效" aria-pressed="false" hidden>动效 <span>开</span></button><a href="/feed.xml">RSS ↗</a><a href="https://github.com/z-q-chen">GitHub ↗</a></div></footer>
+<PageSketch/>
 <script>
 const button=document.querySelector<HTMLButtonElement>('.motion-toggle');
 const preference=matchMedia('(prefers-reduced-motion: reduce)');

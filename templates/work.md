@@ -6,6 +6,9 @@ kind: 工具
 tags: []
 draft: true
 featured: true
+# 部署独立作品仓库后，取消下面两行的注释并填写实际地址。
+# experience: https://z-q-chen.github.io/作品仓库名/
+# source: https://github.com/z-q-chen/作品仓库名
 ---
 
 在这里介绍自己完成的作品。kind 可选：工具、项目、游戏、动画、交互实验。

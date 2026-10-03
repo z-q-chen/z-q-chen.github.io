@@ -1,0 +1,34 @@
+<svg class="page-sketch" aria-hidden="true" data-page-sketch xmlns="http://www.w3.org/2000/svg"></svg>
+<div class="sketch-tools" role="group" aria-label="涂鸦工具" hidden>
+  <div class="sketch-colors"><button type="button" data-pencil-color="#587ab0" aria-label="蓝色铅笔" aria-pressed="true" style="--pencil:#587ab0"></button><button type="button" data-pencil-color="#ce806a" aria-label="珊瑚色铅笔" aria-pressed="false" style="--pencil:#ce806a"></button><button type="button" data-pencil-color="#678261" aria-label="绿色铅笔" aria-pressed="false" style="--pencil:#678261"></button></div>
+  <button type="button" data-sketch-pan aria-pressed="false">移动页面</button><button type="button" data-sketch-undo disabled>撤销</button><button type="button" data-sketch-clear disabled>清空</button><button type="button" data-sketch-done>画好了 ✓</button>
+</div>
+<script>
+const svg=document.querySelector<SVGSVGElement>('[data-page-sketch]')!;
+const toggle=document.querySelector<HTMLButtonElement>('[data-sketch-toggle]')!;
+const tools=document.querySelector<HTMLElement>('.sketch-tools')!;
+const undo=document.querySelector<HTMLButtonElement>('[data-sketch-undo]')!;
+const clear=document.querySelector<HTMLButtonElement>('[data-sketch-clear]')!;
+const done=document.querySelector<HTMLButtonElement>('[data-sketch-done]')!;
+const panButton=document.querySelector<HTMLButtonElement>('[data-sketch-pan]')!;
+let active=false,pan=false,color='#587ab0',path:SVGPathElement|null=null,points:number[][]=[],pointer:number|null=null;
+function resize(){svg.setAttribute('viewBox',`0 0 ${document.body.clientWidth} ${document.body.scrollHeight}`);}
+function controls(){undo.disabled=clear.disabled=svg.childElementCount===0;svg.dataset.strokes=String(svg.childElementCount);}
+function finish(){if(pointer!==null&&svg.hasPointerCapture(pointer))svg.releasePointerCapture(pointer);pointer=null;path=null;points=[];controls();}
+function mode(on:boolean){finish();active=on;pan=false;panButton.setAttribute('aria-pressed','false');panButton.textContent='移动页面';document.body.dataset.sketch=on?'drawing':'resting';toggle.setAttribute('aria-pressed',String(on));toggle.textContent=on?'收起画笔':'涂两笔 ✎';tools.hidden=!on;resize();if(on)done.focus();else toggle.focus();}
+panButton.addEventListener('click',()=>{finish();pan=!pan;panButton.setAttribute('aria-pressed',String(pan));panButton.textContent=pan?'继续画':'移动页面';document.body.dataset.sketch=pan?'moving':'drawing';});
+toggle.hidden=false;toggle.addEventListener('click',()=>mode(!active));done.addEventListener('click',()=>mode(false));
+document.addEventListener('keydown',e=>{if(active&&e.key==='Escape')mode(false);});
+document.querySelectorAll<HTMLButtonElement>('[data-pencil-color]').forEach(b=>b.addEventListener('click',()=>{color=b.dataset.pencilColor!;document.querySelectorAll('[data-pencil-color]').forEach(c=>c.setAttribute('aria-pressed',String(c===b)));}));
+undo.addEventListener('click',()=>{svg.lastElementChild?.remove();controls();});clear.addEventListener('click',()=>{svg.replaceChildren();controls();});
+function trace(){if(!path||!points.length)return;let d=`M${points[0][0]} ${points[0][1]}`;if(points.length===1)d+=' l.1 .1';else {for(let i=1;i<points.length;i++){const previous=points[i-1],current=points[i];d+=` Q${previous[0]} ${previous[1]} ${(previous[0]+current[0])/2} ${(previous[1]+current[1])/2}`;}const end=points[points.length-1];d+=` L${end[0]} ${end[1]}`;}path.setAttribute('d',d);}
+svg.addEventListener('pointerdown',e=>{
+ if(!active||pan||e.button!==0||pointer!==null)return;e.preventDefault();
+ if(svg.childElementCount>=100)svg.firstElementChild?.remove();
+ path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('fill','none');path.setAttribute('stroke',color);path.setAttribute('stroke-width','3');path.setAttribute('stroke-linecap','round');path.setAttribute('stroke-linejoin','round');svg.append(path);
+ pointer=e.pointerId;svg.setPointerCapture(pointer);const r=svg.getBoundingClientRect();points=[[e.clientX-r.left,e.clientY-r.top]];trace();controls();
+});
+svg.addEventListener('pointermove',e=>{if(pointer!==e.pointerId||!path||points.length>=1200)return;const r=svg.getBoundingClientRect(),p=[e.clientX-r.left,e.clientY-r.top],last=points[points.length-1];if(Math.hypot(p[0]-last[0],p[1]-last[1])<2)return;points.push(p);trace();});
+svg.addEventListener('pointerup',finish);svg.addEventListener('pointercancel',finish);svg.addEventListener('lostpointercapture',finish);
+const observer=new ResizeObserver(resize);observer.observe(document.body);window.addEventListener('pagehide',()=>observer.disconnect(),{once:true});resize();controls();
+</script>

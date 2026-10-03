@@ -1,10 +1,11 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Doodle from '../../components/Doodle.astro';
+import MarginDoodles from '../../components/MarginDoodles.astro';
 import ArticleRow from '../../components/ArticleRow.astro';
 import {getCollection} from 'astro:content';
 const articles=(await getCollection('articles',({data})=>!data.draft)).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf());
 const kinds=['全部',...new Set(articles.map(a=>a.data.kind))];
 ---
-<Layout title="文章 · ECHO" active="articles"><header class="page-intro"><p class="eyebrow">a few words</p><h1>文章<span class="accent">.</span></h1></header><div class="page-content">{articles.length ? <>{kinds.length>2&&<div class="filter-bar" aria-label="文章类型筛选">{kinds.map((k,i)=><button data-article-filter={k} aria-pressed={i===0?'true':'false'}>{k}</button>)}</div>}<div class="article-list">{articles.map(article=><div data-article-kind={article.data.kind}><ArticleRow article={article}/></div>)}</div></> : <div class="collection-empty"><Doodle kind="word"/><h2>第一篇，慢慢来</h2><p>尚未发布</p></div>}</div></Layout>
+<Layout title="文章 · ECHO" active="articles"><header class="page-intro"><MarginDoodles spot="page"/><p class="eyebrow">a few words</p><h1>文章<span class="accent">.</span></h1></header><div class="page-content">{articles.length ? <>{kinds.length>2&&<div class="filter-bar" aria-label="文章类型筛选">{kinds.map((k,i)=><button data-article-filter={k} aria-pressed={i===0?'true':'false'}>{k}</button>)}</div>}<div class="article-list">{articles.map(article=><div data-article-kind={article.data.kind}><ArticleRow article={article}/></div>)}</div></> : <div class="collection-empty"><Doodle kind="word"/><h2>第一篇，慢慢来</h2><p>尚未发布</p></div>}</div></Layout>
 <script>document.querySelectorAll<HTMLButtonElement>('[data-article-filter]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('[data-article-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b===btn)));document.querySelectorAll<HTMLElement>('[data-article-kind]').forEach(row=>{row.hidden=btn.dataset.articleFilter!=='全部'&&row.dataset.articleKind!==btn.dataset.articleFilter;});}));</script>
