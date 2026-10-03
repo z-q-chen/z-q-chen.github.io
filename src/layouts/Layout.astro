@@ -1,13 +1,21 @@
 ---
 import '../styles/global.css';
-const {title='ECHO · Digital Lab', description='ECHO 的作品与文字。', active='',immersive=false}=Astro.props;
+const {title='ECHO · 小小实验室', description='ECHO 的作品与文字。', active=''}=Astro.props;
 const nav=[['/works/','作品','works'],['/articles/','文章','articles'],['/about/','关于','about']];
 ---
 <!doctype html>
 <html lang="zh-CN">
-<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="description" content={description}/><meta name="theme-color" content="#060910"/><title>{title}</title><link rel="icon" href="/favicon.svg" type="image/svg+xml"/><link rel="canonical" href={new URL(Astro.url.pathname,Astro.site)}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:type" content="website"/><meta property="og:url" content={new URL(Astro.url.pathname,Astro.site)}/><link rel="alternate" type="application/rss+xml" title="ECHO · 文章" href="/feed.xml"/></head>
-<body class:list={{immersive}}><a class="skip" href="#main">跳到内容</a>
-<header class="site-header wrap"><a class="brand" href="/" aria-label="ECHO 首页"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M4 4H24M4 14H19M4 24H24"/></svg><span>ECHO</span></a><nav aria-label="主导航">{nav.map(([url,label,key])=><a href={url} aria-current={active===key?'page':undefined}>{label}</a>)}</nav></header>
-<main id="main" class:list={[immersive?'main-immersive':'wrap']}><slot/></main>
-<footer class="wrap footer"><span>© {new Date().getFullYear()} ECHO</span><div><a href="/feed.xml">RSS ↗</a><a href="https://github.com/z-q-chen">GitHub ↗</a><a href="/about/">关于 ↗</a></div></footer>
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="description" content={description}/><meta name="theme-color" content="#f8f5ed"/><title>{title}</title><link rel="icon" href="/favicon.svg" type="image/svg+xml"/><link rel="canonical" href={new URL(Astro.url.pathname,Astro.site)}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:type" content="website"/><meta property="og:url" content={new URL(Astro.url.pathname,Astro.site)}/><link rel="alternate" type="application/rss+xml" title="ECHO · 文章" href="/feed.xml"/></head>
+<body><a class="skip" href="#main">跳到内容</a>
+<header class="site-header wrap"><a class="brand" href="/" aria-label="ECHO 首页"><span>echo<span class="brand-dot">.</span></span><svg viewBox="0 0 70 12" aria-hidden="true"><path d="M3 7Q20 3 35 6T67 5M12 10Q32 6 55 8"/></svg></a><nav aria-label="主导航">{nav.map(([url,label,key])=><a href={url} aria-current={active===key?'page':undefined}>{label}</a>)}</nav></header>
+<main id="main" class="wrap"><slot/></main>
+<footer class="wrap footer"><span>© {new Date().getFullYear()} ECHO <span class="footer-flower" aria-hidden="true">✿</span></span><div><button class="motion-toggle" type="button" aria-label="暂停动效" aria-pressed="false" hidden>动效 <span>开</span></button><a href="/feed.xml">RSS ↗</a><a href="https://github.com/z-q-chen">GitHub ↗</a></div></footer>
+<script>
+const button=document.querySelector<HTMLButtonElement>('.motion-toggle');
+const preference=matchMedia('(prefers-reduced-motion: reduce)');
+let paused=preference.matches;
+function sync(){document.body.dataset.motion=paused?'paused':'running';if(button){button.setAttribute('aria-label',paused?'开启动效':'暂停动效');button.setAttribute('aria-pressed',String(paused));button.querySelector('span')!.textContent=paused?'关':'开';}}
+if(button){button.hidden=false;button.addEventListener('click',()=>{paused=!paused;sync();});}
+preference.addEventListener('change',e=>{paused=e.matches;sync();});sync();
+</script>
 </body></html>

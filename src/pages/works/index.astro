@@ -1,9 +1,10 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Doodle from '../../components/Doodle.astro';
 import WorkCard from '../../components/WorkCard.astro';
 import {getCollection} from 'astro:content';
 const works=(await getCollection('works',({data})=>!data.draft)).sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf());
 const kinds=['全部',...new Set(works.map(w=>w.data.kind))];
 ---
-<Layout title="作品 · ECHO" active="works"><header class="page-intro"><p class="eyebrow">SELECTED OBJECTS</p><h1>作品<span class="accent">.</span></h1></header><div class="page-content">{works.length ? <>{kinds.length>2&&<div class="filter-bar" aria-label="作品类型筛选">{kinds.map((k,i)=><button data-work-filter={k} aria-pressed={i===0?'true':'false'}>{k}</button>)}</div>}<div class="work-grid">{works.map(work=><div data-work-kind={work.data.kind}><WorkCard work={work}/></div>)}</div></> : <div class="collection-empty"><span class="empty-art" aria-hidden="true"><i></i><i></i><i></i></span><p>尚未发布</p></div>}</div></Layout>
+<Layout title="作品 · ECHO" active="works"><header class="page-intro"><p class="eyebrow">little things</p><h1>作品<span class="accent">.</span></h1></header><div class="page-content">{works.length ? <>{kinds.length>2&&<div class="filter-bar" aria-label="作品类型筛选">{kinds.map((k,i)=><button data-work-filter={k} aria-pressed={i===0?'true':'false'}>{k}</button>)}</div>}<div class="work-grid">{works.map(work=><div data-work-kind={work.data.kind}><WorkCard work={work}/></div>)}</div></> : <div class="collection-empty"><Doodle kind="work"/><h2>作品还在酝酿中</h2><p>尚未发布</p></div>}</div></Layout>
 <script>document.querySelectorAll<HTMLButtonElement>('[data-work-filter]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('[data-work-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b===btn)));document.querySelectorAll<HTMLElement>('[data-work-kind]').forEach(card=>{card.hidden=btn.dataset.workFilter!=='全部'&&card.dataset.workKind!==btn.dataset.workFilter;});}));</script>

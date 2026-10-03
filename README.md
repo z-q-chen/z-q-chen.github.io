@@ -63,8 +63,8 @@ npm run preview
 
 无统计脚本、外部字体、登录与数据收集。依赖版本由 lockfile 固定。图片、源代码和正文应确认可公开后再提交；不要把密钥或私人材料放入仓库。
 
-## 动态视觉
+## 手绘视觉
 
-主视觉为原生 Canvas 的实时三维投影丝带。移动鼠标改变视角，点击背景产生扩散光环；右下角可暂停。尊重系统的减少动态偏好，离开可见区域或切换标签后暂停绘制。没有外部视觉依赖、视频下载或鼠标轨迹采集。
+暖白纸张、彩色线条和矢量小插画。首页与关于页的小花可以点击，纸飞机和盆栽有轻微动效。页脚按钮可关闭全部装饰动效；系统的减少动态偏好默认关闭动效。无需外部字体、图片服务或动画库。
 
-动态装置：`src/components/ArtScene.astro` 与 `src/scripts/art-scene.ts`。色彩、形态和转速可在脚本中调整；页面布局与颜色仍在 `src/styles/global.css`。
+插画位于 `src/components/DoodleGarden.astro` 和 `src/components/Doodle.astro`，排版与配色在 `src/styles/global.css`。这些插画是页面装饰，不属于作者的作品列表。
