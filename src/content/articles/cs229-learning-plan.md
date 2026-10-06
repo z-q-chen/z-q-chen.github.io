@@ -1,401 +1,385 @@
 ---
-title: CS229 机器学习：我的完整学习计划
-description: 一条从基础推导、四次 PSet Gate 到最终项目的学习路线。用 Spring 2026 与 Fall 2025 资料，留下每一步的思考与产出。
+title: CS229 · Course Map
+description: 从基础推导到四次作业，再到一个可复现的机器学习项目。
 date: 2026-10-06
-kind: 学习计划
-tags: [机器学习, CS229, 学习方法]
+kind: 系列总览
+tags: [机器学习, CS229]
 series: cs229
 order: 0
 featured: true
 draft: false
 ---
 
-**Stanford Spring 2026 × Fall 2025 · Full-Blood Self-Study Edition**
+以 Spring 2026 的公开讲义为主线，穿插 Fall 2025 的四次作业。这里保存学习路线；推导、实验和作业复盘会作为独立文章，陆续加入 [CS229 系列](/series/cs229/)。
 
-核心逻辑：
+## 学习路线
 
-> **Spring 2026 学最新内容 → 2026 Study Edition 做即时练习 → Fall 2025 官方 PSet 做正式 Gate → 做完才看学生 Solution → 最后按 Stanford 流程完成 Final Project。**
+<ol class="course-route">
+<li><h3>Warm-up</h3><p>线性代数、微积分、概率与 NumPy。先做预检，遇到缺口再补。</p></li>
+<li><h3>Supervised learning</h3><p>回归、分类、GLM、GDA 与泛化。<strong>PSet 1</strong> 检验推导与实现。</p></li>
+<li><h3>Probability & kernels</h3><p>贝叶斯、正则化、SVM、核方法与聚类。完成 <strong>PSet 2</strong>。</p></li>
+<li><h3>Models & representations</h3><p>树与集成、EM、PCA、神经网络与反向传播。完成 <strong>PSet 3</strong>。</p></li>
+<li><h3>Modern ML & reinforcement learning</h3><p>扩散、对比学习、Attention、MDP 与策略梯度。完成 <strong>PSet 4</strong>，再连接 PPO 与语言模型。</p></li>
+<li><h3>Build something</h3><p>综合复习后，围绕一个问题，完成基线、实验与最终项目。</p></li>
+</ol>
 
----
+## 学习与复盘
 
+每讲只留下三个东西：**一个核心问题、一段关键推导、一个可运行的小实验**。先独立思考，再用讨论或 AI 检查理解，最后写成笔记。
 
-## 准备：确认基础与主资源
+四次作业都先完成书面题与代码，再参考学生解答。复盘聚焦：错在哪里、为什么错、下一次如何验证，避免把答案抄成笔记。
 
-### 0 · 建立课程总入口
+## 最终项目
 
-先收藏核心资源，不要到处换教程。
+先定问题、数据与指标，再跑通基线。用消融、稳健性检查和失败案例解释结果，而不是只展示一个分数。
 
-**资源** [Spring 2026 官方主页](https://cs229.stanford.edu/index.html-spr26) · [2026 Study Edition](https://github.com/az9713/cs229-machine-learning-notes) · [2026 17讲 Companion](https://github.com/ajpaschka/cs229-companion) · [Fall 2025 官方主页](https://cs229.stanford.edu/index.html-fall25) · [Fall 2025 PSet 总仓库](https://github.com/vSebas/CS229-Machine-Learning)
+最终留下 **可复现的仓库、报告、海报与项目文章**。选题可以沿视频理解或量化方向展开，以实际实验决定下一步。
 
-**完成标准** 已收藏主资源；明确后续不随意更换主教程
+## 资料与清单
 
-### 1 · Prerequisite Check：线代、概率、NumPy
+[Spring 2026 官方入口](https://cs229.stanford.edu/index.html-spr26) · [Fall 2025 官方入口](https://cs229.stanford.edu/index.html-fall25)\
+[Study Edition 社区讲义](https://github.com/az9713/cs229-machine-learning-notes) · [公开视频 Companion](https://github.com/ajpaschka/cs229-companion) · [PSet 镜像](https://github.com/vSebas/CS229-Machine-Learning)
 
-只预检，不系统重学；哪里不会补哪里。
+这份路线按知识依赖重排，不是官方课表。社区讲义整理了 17 讲公开课程；官方部分资料需要 Stanford 账号。下方按阶段展开具体任务与原始资源。
 
-**资源** [Linear Algebra Review](https://cs229.stanford.edu/notes2022fall/cs229-linear_algebra_review.pdf) · [Probability Review](https://cs229.stanford.edu/notes2022fall/cs229-probability_review.pdf) · [Python/NumPy Review](https://cs229.stanford.edu/notes2022fall/cs229-python_review_slides.pdf) · [Python Materials ZIP](https://cs229.stanford.edu/notes2022fall/cs229-python_review_materials.zip)
+<details class="course-detail">
+<summary>01 · Warm-up</summary>
 
-**完成标准** 能看懂矩阵求导、期望/方差/协方差、Gaussian；能使用 NumPy 向量化
+<div class="course-step" data-course-step="0">
 
+### Resource desk
 
-## 阶段一：监督学习与 Gate 1
+固定使用官方入口、社区讲义与作业镜像，避免反复更换主线。
 
-### 2 · Machine Learning Overview
+[Spring 2026 官方主页](https://cs229.stanford.edu/index.html-spr26) · [Study Edition 社区讲义](https://github.com/az9713/cs229-machine-learning-notes) · [公开视频 Companion](https://github.com/ajpaschka/cs229-companion) · [Fall 2025 官方主页](https://cs229.stanford.edu/index.html-fall25) · [PSet 镜像](https://github.com/vSebas/CS229-Machine-Learning)
 
-先建立“机器学习到底在学习什么”的全局框架。
+</div>
 
-**资源** [2026 Lecture 1](https://az9713.github.io/cs229-machine-learning-notes/lecture-01.html)
+<div class="course-step" data-course-step="1">
 
-**完成标准** 能解释 Dataset、Model/Hypothesis、Objective、Learning、Generalization 的关系
+### Prerequisites
 
-### 3 · Linear Regression
+查漏补缺：矩阵求导、链式法则、期望与协方差、Gaussian、NumPy 向量化。
 
-Least Squares、LMS、GD、Normal Equation、概率解释。
+[Linear Algebra Review](https://cs229.stanford.edu/notes2022fall/cs229-linear_algebra_review.pdf) · [Probability Review](https://cs229.stanford.edu/notes2022fall/cs229-probability_review.pdf) · [Python/NumPy Review](https://cs229.stanford.edu/notes2022fall/cs229-python_review_slides.pdf) · [Python Materials ZIP](https://cs229.stanford.edu/notes2022fall/cs229-python_review_materials.zip)
 
-**资源** [2026 Lecture 2](https://az9713.github.io/cs229-machine-learning-notes/lecture-02.html)
+</div>
 
-**完成标准** 完成 exercises；自己推 MSE gradient、Normal Equation；能从 Gaussian noise 推 least squares
+</details>
 
-### 4 · Logistic Regression + Newton's Method
+<details class="course-detail">
+<summary>02 · Supervised learning</summary>
 
-**资源** [2026 Lecture 3](https://az9713.github.io/cs229-machine-learning-notes/lecture-03.html)
+<div class="course-step" data-course-step="2">
 
-**完成标准** 从 Bernoulli likelihood 独立推 loss、gradient；理解 Hessian 和 Newton Method
+### The learning problem
 
-### 5 · GLM / Exponential Family / Softmax / Poisson
+说明数据、假设、目标函数、优化与泛化之间的关系。
 
-**资源** [2026 Lecture 4](https://az9713.github.io/cs229-machine-learning-notes/lecture-04.html)
+[2026 Lecture 1](https://az9713.github.io/cs229-machine-learning-notes/lecture-01.html)
 
-**完成标准** 能解释 Gaussian、Bernoulli、Poisson 为什么能放进统一 GLM 框架
+</div>
 
-### 6 · Generative Classification：GDA + Naive Bayes
+<div class="course-step" data-course-step="3">
 
-**资源** [2026 Lecture 5](https://az9713.github.io/cs229-machine-learning-notes/lecture-05.html)
+### Linear regression
 
-**完成标准** 自己推 GDA；能解释 Generative vs Discriminative；理解 Naive Bayes 条件独立假设
+独立推导 MSE 梯度与正规方程；从 Gaussian 噪声解释最小二乘。
 
-### 7 · Bias / Variance / Regularization / Model Selection
+[2026 Lecture 2](https://az9713.github.io/cs229-machine-learning-notes/lecture-02.html)
 
-**资源** [2026 Lecture 6](https://az9713.github.io/cs229-machine-learning-notes/lecture-06.html) · [Bias-Variance Slides](https://cs229.stanford.edu/notes2022fall/bias-variance.pdf)
+</div>
 
-**完成标准** 模型效果差时，能判断 bias、variance、data、optimization 哪个环节有问题
+<div class="course-step" data-course-step="4">
 
-### 8 — Gate 1 · Fall 2025 PS1
+### Logistic regression
 
-先下载干净 ZIP；禁止先看展开目录里的 solution。
+从 Bernoulli 似然推导损失与梯度，理解 Hessian 和 Newton 方法。
 
-**资源** [PS1 官方作业包镜像 ZIP](https://github.com/vSebas/CS229-Machine-Learning/raw/refs/heads/main/ps1.zip) · [PS1 文件夹 / 做完后看答案](https://github.com/vSebas/CS229-Machine-Learning/tree/main/ps1)
+[2026 Lecture 3](https://az9713.github.io/cs229-machine-learning-notes/lecture-03.html)
 
-**完成标准** Poisson、GLM convexity、linear classification、imbalanced classification 全部自己推导 + coding；完成后再对 solution，并写 Postmortem
+</div>
 
+<div class="course-step" data-course-step="5">
 
-## 阶段二：贝叶斯、核方法与 Gate 2
+### Generalized linear models
 
-### 9 · Bayesian / MLE / MAP / L1 / L2 / Kernel
+用指数族与链接函数统一 Gaussian、Bernoulli、Poisson 和 Softmax。
 
-**资源** [Stanford Main Notes](https://cs229.stanford.edu/notes2022fall/main_notes.pdf) · [Ridge Regression](https://cs229.stanford.edu/notes2022fall/ridge-regression.pdf) · [Lasso Regression](https://cs229.stanford.edu/notes2022fall/lasso-regression.pdf)
+[2026 Lecture 4](https://az9713.github.io/cs229-machine-learning-notes/lecture-04.html)
 
-**完成标准** 真正理解 MLE ↔ MAP ↔ Regularization；理解 Kernel Trick 的本质
+</div>
 
-### 10 · K-Means + GMM
+<div class="course-step" data-course-step="6">
 
-**资源** [2026 Lecture 9](https://az9713.github.io/cs229-machine-learning-notes/lecture-09.html) · [K-Means Slides](https://cs229.stanford.edu/notes2022fall/kmeans.pdf) · [GMM Slides](https://cs229.stanford.edu/notes2022fall/gmms.pdf)
+### Generative classification
 
-**完成标准** 能自己实现 K-Means；理解 GMM、latent variable，以及 GMM 与 K-Means 的联系
+推导 GDA；比较生成式与判别式建模，理解 Naive Bayes 的条件独立假设。
 
-### 11 — Gate 2 · Fall 2025 PS2
+[2026 Lecture 5](https://az9713.github.io/cs229-machine-learning-notes/lecture-05.html)
 
-**资源** [PS2 官方作业包镜像 ZIP](https://github.com/vSebas/CS229-Machine-Learning/raw/refs/heads/main/ps2.zip) · [PS2 文件夹 / Solution](https://github.com/vSebas/CS229-Machine-Learning/tree/main/ps2)
+</div>
 
-**完成标准** Bayesian regression、GDA、kernel、spam/NB、K-means 全部完成；之后才看 `*-sol.tex`
+<div class="course-step" data-course-step="7">
 
+### Generalization
 
-## 阶段三：树、EM、神经网络与 Gate 3
+用偏差、方差、数据和优化诊断模型；完成讲义练习。
 
-### 12 · Decision Trees + Bagging + Boosting / AdaBoost
+[2026 Lecture 6](https://az9713.github.io/cs229-machine-learning-notes/lecture-06.html) · [Bias-Variance Slides](https://cs229.stanford.edu/notes2022fall/bias-variance.pdf)
 
-**资源** [Decision Trees Slides](https://cs229.stanford.edu/notes2022fall/cs229-decision_trees_slides.pdf) · [Annotated Decision Trees](https://cs229.stanford.edu/notes2022fall/decision-trees-annotated.pdf) · [Boosting Slides](https://cs229.stanford.edu/notes2022fall/cs229-boosting_slides.pdf)
+</div>
 
-**完成标准** 能解释 Tree 为什么高 variance；理解 Bagging 和 Boosting 的不同
+<div class="course-step" data-course-step="8">
 
-### 13 · EM + PCA
+### PSet 1
 
-重点理解 latent variable 和优化视角，而不是背 E/M 两步。
+独立完成 Poisson、GLM 凸性、线性分类与不平衡分类的推导和实现，再写复盘。
 
-**资源** [2026 Lecture 10](https://az9713.github.io/cs229-machine-learning-notes/lecture-10.html) · [EM Slides](https://cs229.stanford.edu/notes2022fall/em.pdf) · [PCA Slides](https://cs229.stanford.edu/notes2022fall/pca.pdf)
+[PS1 作业镜像 ZIP](https://github.com/vSebas/CS229-Machine-Learning/raw/refs/heads/main/ps1.zip) · [PS1 文件夹 · 学生解答](https://github.com/vSebas/CS229-Machine-Learning/tree/main/ps1)
 
-**完成标准** 能解释 EM 为什么不直接优化 marginal likelihood、为什么 likelihood 不下降；理解 PCA 的 variance / reconstruction / subspace 三个视角
+</div>
 
-### 14 · Neural Networks 1：Architecture / Representation
+</details>
 
-把它和自己的 ECHOMind 联系起来。
+<details class="course-detail">
+<summary>03 · Probability & kernels</summary>
 
-**资源** [2026 Lecture 7](https://az9713.github.io/cs229-machine-learning-notes/lecture-07.html)
+<div class="course-step" data-course-step="9">
 
-**完成标准** 能从 CS229 理论连接到 Linear、MLP、ECHOMind，而不是重新背 NN
+### Bayes, regularization & kernels
 
-### 15 · Neural Networks 2：Backprop / Computational Graph / Autodiff
+串起 MLE、MAP、L1/L2 正则；补上 SVM 的间隔与 Kernel Trick。
 
-**资源** [2026 Lecture 8](https://az9713.github.io/cs229-machine-learning-notes/lecture-08.html)
+[Stanford Main Notes](https://cs229.stanford.edu/notes2022fall/main_notes.pdf) · [Ridge Regression](https://cs229.stanford.edu/notes2022fall/ridge-regression.pdf) · [Lasso Regression](https://cs229.stanford.edu/notes2022fall/lasso-regression.pdf)
 
-**完成标准** 手推简单网络 backward；理解 PyTorch autograd 实际做什么；能映射到 ECHOMind
+</div>
 
-### 16 — Gate 3 · Fall 2025 PS3
+<div class="course-step" data-course-step="10">
 
-**资源** [PS3 官方作业包镜像 ZIP](https://github.com/vSebas/CS229-Machine-Learning/raw/refs/heads/main/ps3.zip) · [PS3 文件夹 / Solution](https://github.com/vSebas/CS229-Machine-Learning/tree/main/ps3)
+### Clustering
 
-**完成标准** Decision Trees、AdaBoost、Semi-Supervised EM、Simple NN 全部完成，并写 PS3 Postmortem
+实现 K-Means，理解 GMM 的隐变量以及两者的联系。
 
+[2026 Lecture 9](https://az9713.github.io/cs229-machine-learning-notes/lecture-09.html) · [K-Means Slides](https://cs229.stanford.edu/notes2022fall/kmeans.pdf) · [GMM Slides](https://cs229.stanford.edu/notes2022fall/gmms.pdf)
 
-## 阶段四：现代模型、强化学习与 Gate 4
+</div>
 
-### 17 · Diffusion Models 1：Forward Noise / Reverse Process / ELBO
+<div class="course-step" data-course-step="11">
 
-**资源** [2026 Lecture 11](https://az9713.github.io/cs229-machine-learning-notes/lecture-11.html)
+### PSet 2
 
-**完成标准** 能画出 forward/reverse process；理解基本 diffusion training objective
+完成贝叶斯回归、GDA、核方法、垃圾邮件分类与聚类；完成后再对照学生解答。
 
-### 18 · Diffusion Models 2：Denoising / Adaptation
+[PS2 作业镜像 ZIP](https://github.com/vSebas/CS229-Machine-Learning/raw/refs/heads/main/ps2.zip) · [PS2 文件夹 · 学生解答](https://github.com/vSebas/CS229-Machine-Learning/tree/main/ps2)
 
-**资源** [2026 Lecture 12](https://az9713.github.io/cs229-machine-learning-notes/lecture-12.html)
+</div>
 
-**完成标准** 完成 exercises；推荐做一个 2D toy diffusion / denoising experiment
+</details>
 
-### 19 · Representation / Contrastive Learning
+<details class="course-detail">
+<summary>04 · Models & representations</summary>
 
-这一节点直接连接 CLIP、InternVideo、Video Understanding。
+<div class="course-step" data-course-step="12">
 
-**资源** [2026 Lecture 13](https://az9713.github.io/cs229-machine-learning-notes/lecture-13.html)
+### Trees & ensembles
 
-**完成标准** 理解 embedding geometry、contrastive objective、semantic similarity；推荐做 tiny contrastive experiment
+解释树模型的高方差，比较 Bagging、Boosting 与 AdaBoost。
 
-### 20 · Language Modeling + Attention
+[Decision Trees Slides](https://cs229.stanford.edu/notes2022fall/cs229-decision_trees_slides.pdf) · [Annotated Decision Trees](https://cs229.stanford.edu/notes2022fall/decision-trees-annotated.pdf) · [Boosting Slides](https://cs229.stanford.edu/notes2022fall/cs229-boosting_slides.pdf)
 
-不要重复重新写 Attention，而是从 ML 视角重新理解自己的 ECHOMind。
+</div>
 
-**资源** [2026 Lecture 14](https://az9713.github.io/cs229-machine-learning-notes/lecture-14.html)
+<div class="course-step" data-course-step="13">
 
-**完成标准** 能解释 autoregressive objective、next-token learning、Attention 与 representation 的关系
+### EM & PCA
 
-### 21 · Efficient Transformers / Prompting vs Training / In-Context Learning
+理解 EM 的下界与似然单调性；从方差、重构和子空间三个角度理解 PCA。
 
-**资源** [2026 Lecture 16](https://az9713.github.io/cs229-machine-learning-notes/lecture-16.html)
+[2026 Lecture 10](https://az9713.github.io/cs229-machine-learning-notes/lecture-10.html) · [EM Slides](https://cs229.stanford.edu/notes2022fall/em.pdf) · [PCA Slides](https://cs229.stanford.edu/notes2022fall/pca.pdf)
 
-**完成标准** 分清 parameter learning、fine-tuning、prompting、in-context learning
+</div>
 
-### 22 · Reinforcement Learning：MDP / Bellman / Value / Policy / Policy Gradient
+<div class="course-step" data-course-step="14">
 
-**资源** [2026 Lecture 18](https://az9713.github.io/cs229-machine-learning-notes/lecture-18.html)
+### Neural networks
 
-**完成标准** 能自己写 Bellman Equation；理解 value iteration 与 policy gradient 各自在优化什么
+理解网络的表示与结构，将 Linear、MLP 的理论对应到自己的实现。
 
-### 23 — Gate 4 · Fall 2025 PS4
+[2026 Lecture 7](https://az9713.github.io/cs229-machine-learning-notes/lecture-07.html)
 
-**资源** [PS4 官方作业包镜像 ZIP](https://github.com/vSebas/CS229-Machine-Learning/raw/refs/heads/main/ps4.zip) · [PS4 文件夹 / Solution](https://github.com/vSebas/CS229-Machine-Learning/tree/main/ps4)
+</div>
 
-**完成标准** MNIST NN、MDP、CartPole、PCA 全部完成。至此 CS229 核心 PSet 正式毕业
+<div class="course-step" data-course-step="15">
 
-### 24 · PPO + RL for LLMs
+### Backpropagation
 
-把 RL 与 LLM 第一次真正接起来。
+手推简单网络的反向传播，再对应计算图与 PyTorch autograd。
 
-**资源** [2026 Lecture 20](https://az9713.github.io/cs229-machine-learning-notes/lecture-20.html)
+[2026 Lecture 8](https://az9713.github.io/cs229-machine-learning-notes/lecture-08.html)
 
-**完成标准** 能画出 LM → Reward → Policy Optimization；理解 PPO / RLHF / RL for LLM 的基本坐标系
+</div>
 
+<div class="course-step" data-course-step="16">
 
-## 阶段五：综合复习与最终项目
+### PSet 3
 
-### 25 · Comprehensive Review：闭卷式综合训练
+完成树、AdaBoost、半监督 EM 与简单神经网络，记录推导和实现中的错误。
 
-尽量不用 AI。
+[PS3 作业镜像 ZIP](https://github.com/vSebas/CS229-Machine-Learning/raw/refs/heads/main/ps3.zip) · [PS3 文件夹 · 学生解答](https://github.com/vSebas/CS229-Machine-Learning/tree/main/ps3)
 
-**资源** [Fall 2022 Midterm Review](https://cs229.stanford.edu/notes2022fall/CS_229_Fall_2022_TA_Lecture__Midterm_Review.pdf) · [另一套 Midterm Review](https://cs229.stanford.edu/materials/midterm-review.pdf) · [TA Materials 总目录](https://cs229.stanford.edu/notes2022fall/)
+</div>
 
-**完成标准** 不借助 AI 能独立推 Logistic、GLM、GDA、EM、PCA、Backprop、Bellman 等核心内容
+</details>
 
-### 26 · Final Project Proposal
+<details class="course-detail">
+<summary>05 · Modern ML & RL</summary>
 
-先定义 Problem、Dataset、Metric、Baseline、Method、Experiment Plan。
+<div class="course-step" data-course-step="17">
 
-**资源** [Proposal 示例](https://github.com/gazcn007/cs229-ml-proposal) · [Proposal LaTeX](https://github.com/gazcn007/cs229-ml-proposal/blob/main/cs229-proposal.tex)
+### Diffusion · fundamentals
 
-**完成标准** 写出自己的 Proposal；必须先定义 baseline，禁止一开始直接堆 Transformer / Agent
+画出加噪与反向过程，理解 ELBO 和基本训练目标。
 
-### 27 · Baseline First
+[2026 Lecture 11](https://az9713.github.io/cs229-machine-learning-notes/lecture-11.html)
 
-先把数据 pipeline、baseline、evaluation 跑通，再上复杂模型。
+</div>
 
-**资源** Video 方向参考：[Flow Project](https://github.com/vincent65/flowing-to-learn) · Quant 方向重点参考：[Spring 2026 S&P500 Project](https://github.com/pellucide/sp500_macro_forecast-)
+<div class="course-step" data-course-step="18">
 
-**完成标准** 有一个完整、可运行、可复现、可比较的 baseline
+### Diffusion · denoising
 
-### 28 · Milestone
+完成讲义练习，再做二维 toy diffusion 或去噪实验。
 
-Preliminary Result + Error Analysis + Next Steps
+[2026 Lecture 12](https://az9713.github.io/cs229-machine-learning-notes/lecture-12.html)
 
-**资源** [Fall 2025 Milestone 目录](https://github.com/vSebas/CS229-Machine-Learning/tree/main/CS_229_Project_Milestone) · [Milestone LaTeX](https://github.com/vSebas/CS229-Machine-Learning/blob/main/CS_229_Project_Milestone/cs229-milestone.tex)
+</div>
 
-**完成标准** 已有真实实验结果；能说明当前方法失败在哪里、下一步为什么这样改
+<div class="course-step" data-course-step="19">
 
-### 29 · Ablation + Robustness + Error Analysis
+### Contrastive learning
 
-**资源** [Options Mispricing Project](https://github.com/TheClassicTechno/DetectMispricedOptionsResearch_CS229) · [Machine Learning Cannot Beat AR(1)](https://github.com/mauber91/cs229-final-project)
+理解 embedding 几何与对比目标；用小实验连接 CLIP、InternVideo 与视频理解。
 
-**完成标准** 至少有 baseline comparison、ablation、robustness check、error analysis；允许并记录 negative result
+[2026 Lecture 13](https://az9713.github.io/cs229-machine-learning-notes/lecture-13.html)
 
-### 30 · Final Report + Poster + GitHub + Blog Summary
+</div>
 
-**资源** [Stanford Project Guidelines](https://cs229.stanford.edu/materials/projectGuidelines.pdf) · [2025 Poster 示例](https://docs.google.com/presentation/d/1yqQVlgoIGQJtpYfX-JJkUdi18qTVGc0x1rFVwWsGShk/edit)
+<div class="course-step" data-course-step="20">
 
-**完成标准** Clean GitHub Repo + 约 5 页 Final Report + Poster + 3 分钟讲解 + Blog Project Summary
+### Language modeling & attention
 
+从自回归目标、下一词预测与表示学习重新理解 Attention。
 
----
+[2026 Lecture 14](https://az9713.github.io/cs229-machine-learning-notes/lecture-14.html)
 
-## 每个普通 Lecture 的固定学习循环
+</div>
 
-```text
-Lecture
-   ↓
-理解核心问题
-   ↓
-Study Edition Exercises
-   ↓
-自己推导 / 小实验
-   ↓
-AI Dialogue
-   ↓
-写 Learning Note
-   ↓
-进入下一节点
-```
+<div class="course-step" data-course-step="21">
 
-建议每个 Learning Note 保留：
+### Transformers & adaptation
 
-- Before Learning：我原来怎么理解？
-- Core Question：这一讲到底解决什么？
-- Key Derivation：最重要的数学推导是什么？
-- Implementation Insight：如何映射到代码？
-- Connections：和之前 / 之后哪些知识连接？
-- After Learning：我的理解发生了什么变化？
-- Open Questions：还有什么没真正搞懂？
+区分参数学习、微调、Prompting 与 In-Context Learning。
 
----
+[2026 Lecture 16](https://az9713.github.io/cs229-machine-learning-notes/lecture-16.html)
 
-## Assignment Gate 固定流程
+</div>
 
-PS1 / PS2 / PS3 / PS4 全部遵循：
+<div class="course-step" data-course-step="22">
 
-```text
-下载官方作业 ZIP
-        ↓
-禁止看 Solution
-        ↓
-自己完成 Written
-        ↓
-自己完成 Coding
-        ↓
-运行实验
-        ↓
-Debug
-        ↓
-全部完成
-        ↓
-查看学生 Solution
-        ↓
-对比思路
-        ↓
-Postmortem
-```
+### Reinforcement learning
 
-Postmortem 至少记录：
+写出 Bellman 方程，说明 Value Iteration 与 Policy Gradient 分别优化什么。
 
-- 哪些题不会？
-- 为什么不会？
-- 哪一步推导错了？
-- Coding bug 属于什么类型？
-- Student Solution 有没有更好的思路？
-- 这一套 PSet 暴露了什么知识漏洞？
+[2026 Lecture 18](https://az9713.github.io/cs229-machine-learning-notes/lecture-18.html)
 
----
+</div>
 
-## 最终课程知识主线
+<div class="course-step" data-course-step="23">
 
-```text
-Prerequisite Check
-        ↓
-Linear Regression
-        ↓
-Logistic Regression
-        ↓
-GLM
-        ↓
-GDA / Naive Bayes
-        ↓
-Bias / Variance / Regularization
-        ↓
-PS1
-        ↓
-Bayesian / Kernel / K-Means
-        ↓
-PS2
-        ↓
-Decision Trees / Boosting
-        ↓
-GMM / EM
-        ↓
-Neural Networks / Backprop
-        ↓
-PS3
-        ↓
-Diffusion
-        ↓
-Representation Learning
-        ↓
-PCA
-        ↓
-Transformer / LLM / ICL
-        ↓
-Reinforcement Learning
-        ↓
-PS4
-        ↓
-RL for LLM
-        ↓
-Comprehensive Review
-        ↓
-Final Project
-```
+### PSet 4
 
----
+完成 MNIST 神经网络、MDP、CartPole 与 PCA；复盘仍不熟悉的环节。
 
-## 课程最终目标
+[PS4 作业镜像 ZIP](https://github.com/vSebas/CS229-Machine-Learning/raw/refs/heads/main/ps4.zip) · [PS4 文件夹 · 学生解答](https://github.com/vSebas/CS229-Machine-Learning/tree/main/ps4)
 
-这门课不是为了“看完 Stanford CS229”。
+</div>
 
-真正训练的是：
+<div class="course-step" data-course-step="24">
 
-```text
-Problem
-   ↓
-Identify Problem Class
-   ↓
-Choose Model
-   ↓
-Derive
-   ↓
-Implement
-   ↓
-Experiment
-   ↓
-Debug
-   ↓
-Evaluate
-   ↓
-Read Papers
-   ↓
-Improve
-```
+### PPO & language models
 
-最终目标是获得从**问题 → 数学 → 模型 → 实现 → 实验 → 研究**的完整机器学习能力。
+串起语言模型、奖励与策略优化，建立 PPO、RLHF 和 RL for LLM 的基本框架。
+
+[2026 Lecture 20](https://az9713.github.io/cs229-machine-learning-notes/lecture-20.html)
+
+</div>
+
+</details>
+
+<details class="course-detail">
+<summary>06 · Final project</summary>
+
+<div class="course-step" data-course-step="25">
+
+### Synthesis
+
+不借助答案，独立推导 Logistic、GLM、GDA、EM、PCA、Backprop 与 Bellman。
+
+[Fall 2022 Midterm Review](https://cs229.stanford.edu/notes2022fall/CS_229_Fall_2022_TA_Lecture__Midterm_Review.pdf) · [另一套 Midterm Review](https://cs229.stanford.edu/materials/midterm-review.pdf) · [TA Materials 总目录](https://cs229.stanford.edu/notes2022fall/)
+
+</div>
+
+<div class="course-step" data-course-step="26">
+
+### Proposal
+
+明确问题、数据、指标、基线和实验计划；先写可验证的假设。
+
+[Proposal 示例](https://github.com/gazcn007/cs229-ml-proposal) · [Proposal LaTeX](https://github.com/gazcn007/cs229-ml-proposal/blob/main/cs229-proposal.tex)
+
+</div>
+
+<div class="course-step" data-course-step="27">
+
+### Baseline
+
+跑通数据、模型与评估，得到一个可复现、可比较的基线。
+
+Video 方向参考：[Flow Project](https://github.com/vincent65/flowing-to-learn) · Quant 方向重点参考：[Spring 2026 S&P500 Project](https://github.com/pellucide/sp500_macro_forecast-)
+
+</div>
+
+<div class="course-step" data-course-step="28">
+
+### Milestone
+
+记录初步结果、失败案例与下一步实验，说明每项改动的理由。
+
+[Fall 2025 Milestone 目录](https://github.com/vSebas/CS229-Machine-Learning/tree/main/CS_229_Project_Milestone) · [Milestone LaTeX](https://github.com/vSebas/CS229-Machine-Learning/blob/main/CS_229_Project_Milestone/cs229-milestone.tex)
+
+</div>
+
+<div class="course-step" data-course-step="29">
+
+### Evaluation
+
+做基线对比、消融、稳健性检查与错误分析；保留负面结果。
+
+[Options Mispricing Project](https://github.com/TheClassicTechno/DetectMispricedOptionsResearch_CS229) · [Machine Learning Cannot Beat AR(1)](https://github.com/mauber91/cs229-final-project)
+
+</div>
+
+<div class="course-step" data-course-step="30">
+
+### Release
+
+整理可复现仓库、约五页报告、海报、三分钟讲解与项目总结。
+
+[Stanford Project Guidelines](https://cs229.stanford.edu/materials/projectGuidelines.pdf) · [2025 Poster 示例](https://docs.google.com/presentation/d/1yqQVlgoIGQJtpYfX-JJkUdi18qTVGc0x1rFVwWsGShk/edit)
+
+</div>
+
+</details>
+
+延伸时再看公平性、可解释性与隐私，参考 [Fall 2025 课程安排](https://cs229.stanford.edu/index.html-fall25)。
