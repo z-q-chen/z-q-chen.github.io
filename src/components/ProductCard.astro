@@ -1,0 +1,4 @@
+---
+const {product}=Astro.props;
+---
+<article class:list={['product-card',product.data.color]}><div class="card-top"><span class="small-label">PRODUCT</span><span aria-hidden="true">✳</span></div><h2><a href={product.data.url} target="_blank" rel="noopener noreferrer">{product.data.title} <span>↗</span></a></h2><p>{product.data.description}</p><div class="tags">{product.data.tags.map((tag:string)=><span>{tag}</span>)}</div><div class="card-bottom"><a href={product.data.url} target="_blank" rel="noopener noreferrer">打开产品 ↗</a>{product.data.article&&<a href={`/articles/${product.data.article}/`}>制作记录</a>}{product.data.source&&<a href={product.data.source} target="_blank" rel="noopener noreferrer">源码</a>}</div></article>

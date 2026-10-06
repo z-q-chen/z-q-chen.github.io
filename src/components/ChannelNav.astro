@@ -1,5 +1,0 @@
----
-import {channels} from '../data/channels';
-const {current=''}=Astro.props;
----
-<nav class="channel-nav" aria-label="作品分类"><a href="/works/" aria-current={!current?'page':undefined}>全部</a>{channels.map(c=><a href={`/collections/${c.id}/`} aria-current={current===c.id?'page':undefined}>{c.label}</a>)}</nav>

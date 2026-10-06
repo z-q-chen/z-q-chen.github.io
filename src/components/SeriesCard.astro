@@ -1,0 +1,5 @@
+---
+import {sequence} from '../lib/content';
+const {group,articles}=Astro.props;const entries=articles.filter(a=>a.data.series===group.id).sort(sequence);
+---
+<a class:list={['series-card',group.data.color]} href={`/series/${group.id}/`}><div class="card-top"><span class="course-label">{group.data.label}</span><span class="status">{group.data.status}</span></div><h3>{group.data.title}</h3><p>{group.data.description}</p><div class="card-bottom"><span>{entries.length} 篇已发布</span><span aria-hidden="true">↗</span></div></a>

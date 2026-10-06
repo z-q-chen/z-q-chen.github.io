@@ -1,12 +1,4 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import ChannelNav from '../../components/ChannelNav.astro';
-import EditorialArt from '../../components/EditorialArt.astro';
-import WorkCard from '../../components/WorkCard.astro';
-import {channels,channelOf} from '../../data/channels';
-import {getCollection} from 'astro:content';
-export function getStaticPaths(){return channels.map(channel=>({params:{channel:channel.id},props:{channel}}));}
-const {channel}=Astro.props;
-const works=(await getCollection('works',({data})=>!data.draft&&channelOf(data)===channel.id)).sort((a,b)=>Number(b.data.featured)-Number(a.data.featured)||b.data.date.valueOf()-a.data.date.valueOf());
+export function getStaticPaths(){return ['music','games','images','video','tools'].map(channel=>({params:{channel}}));}const target='/products/';
 ---
-<Layout title={`${channel.label} · ECHO`} active="works"><header class="page-heading"><p class="eyebrow">THINGS I MAKE / {channel.id.toUpperCase()}</p><h1>{channel.label}<span class="accent">.</span></h1><p>{channel.note}。</p></header><div class="page-content"><ChannelNav current={channel.id}/>{works.length?<div class="work-grid">{works.map(work=><WorkCard work={work}/>)}</div>:<div class="empty-state work-empty"><EditorialArt small/><h2>{channel.empty}</h2><p>完成的作品会出现在这里。</p><a class="text-link" href="/works/">所有作品 <span>↗</span></a></div>}</div></Layout>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="description" content="分类已合并到产品"/><title>产品 · ECHO</title><meta name="robots" content="noindex"/><meta http-equiv="refresh" content={`0;url=${target}`}/><link rel="canonical" href={new URL(target,Astro.site)}/></head><body><a href={target}>前往产品</a></body></html>

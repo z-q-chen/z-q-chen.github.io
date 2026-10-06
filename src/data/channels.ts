@@ -9,6 +9,6 @@ export const channels = [
 const kindChannels: Record<string,string> = {游戏:'games',动画:'video',交互实验:'games'};
 export function channelOf(data:{channel?:string;kind:string}) { return data.channel || kindChannels[data.kind] || 'tools'; }
 export const legacyEntries = [
-  {id:'book',href:'/articles/'}, ...channels.map(c=>({id:c.id,href:`/collections/${c.id}/`})),
-  {id:'about',href:'/about/'},{id:'drawer',href:'/works/'}
+  {id:'book',href:'/articles/'}, ...channels.map(c=>({id:c.id,href:'/products/'})),
+  {id:'about',href:'/about/'},{id:'drawer',href:'/products/'}
 ].filter(c=>c.id!=='tools');

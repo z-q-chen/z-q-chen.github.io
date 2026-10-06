@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="阅读偏好 · ECHO" noindex><header class="page-heading"><p class="eyebrow">MAKE YOURSELF AT HOME</p><h1>阅读偏好<span class="title-dot">.</span></h1><p>这份设置只保存在当前浏览器。</p></header><section class="preferences-card"><h2>作者模式</h2><p>如果你是 ECHO，在常用浏览器开启作者模式。之后浏览文章只读取次数，不增加计数。换浏览器、换设备或清除浏览器数据后，需要再次开启。</p><p class="preferences-status" role="status" data-owner-status></p><div class="preference-actions"><button data-owner-toggle type="button" aria-pressed="false" hidden>开启作者模式</button><a class="quiet-link" href="/articles/">回到文章 →</a></div><noscript><p>请启用 JavaScript 后修改浏览器偏好。</p></noscript></section><section class="preferences-notes"><h2>阅读次数如何计算</h2><p>文章在可见页面停留约 8 秒后计入一次。30 分钟内，在当前浏览器重复访问同一篇文章不重复计数。本地预览与作者模式不增加计数。</p><p>统计从功能上线后开始，属于累计阅读次数，不等于独立人数。数据由<a href="https://github.com/soxft/busuanzi" target="_blank" rel="noopener noreferrer">开源不蒜子服务</a>提供；服务接收文章的规范网址与请求网络信息，不上传搜索词或页面内容。统计受浏览器设置、拦截器与服务可用性影响。</p><p>页脚的动效开关也保存在当前浏览器，首次遵循系统的减少动态设置。</p></section></Layout>
+<script>
+import {AUTHOR_KEY} from '../lib/views.mjs';
+const button=document.querySelector<HTMLButtonElement>('[data-owner-toggle]')!;const status=document.querySelector<HTMLElement>('[data-owner-status]')!;let enabled=false;
+function sync(){button.textContent=enabled?'关闭作者模式':'开启作者模式';button.setAttribute('aria-pressed',String(enabled));status.textContent=enabled?'已开启 · 本浏览器的文章浏览不计数。':'未开启 · 浏览文章会按规则计数。';const badge=document.querySelector<HTMLElement>('.owner-badge');if(badge)badge.hidden=!enabled;}
+try{enabled=localStorage.getItem(AUTHOR_KEY)==='on';if(new URLSearchParams(location.search).get('owner')==='on'){localStorage.setItem(AUTHOR_KEY,'on');enabled=true;history.replaceState(null,'',location.pathname);}button.hidden=false;sync();button.addEventListener('click',()=>{try{enabled=!enabled;if(enabled)localStorage.setItem(AUTHOR_KEY,'on');else localStorage.removeItem(AUTHOR_KEY);sync();}catch{status.textContent='浏览器无法保存偏好，请检查存储设置。';}});}catch{status.textContent='当前浏览器无法保存偏好。为避免误计，阅读不计入统计。';}
+</script>

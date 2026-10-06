@@ -1,0 +1,8 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import LittleSpark from '../../components/LittleSpark.astro';
+import {published} from '../../lib/content';
+const {products}=await published();
+---
+<Layout title="产品 · ECHO" active="products"><header class="page-heading"><p class="eyebrow">IDEAS YOU CAN USE</p><h1>产品<span class="title-dot">.</span></h1><p>做好的东西，各自拥有一个网站。从这里，直接去体验。</p></header><div class="page-section">{products.length?<div class="product-grid">{products.map(product=><ProductCard product={product}/>)}</div>:<div class="empty-state"><LittleSpark kind="star"/><h2>下一件成品，会在这里见面。</h2><p>目前还没有收录公开产品。<br/>学习与制作过程，先写在文章里。</p><a class="button" href="/articles/">去读文章 ↗</a></div>}</div></Layout>

@@ -2,29 +2,18 @@ import {readFile,readdir,stat} from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 const root=path.resolve('dist');
-async function walk(dir){const entries=await readdir(dir,{withFileTypes:true});return(await Promise.all(entries.map(e=>e.isDirectory()?walk(path.join(dir,e.name)):path.join(dir,e.name)))).flat();}
+async function walk(dir){return(await Promise.all((await readdir(dir,{withFileTypes:true})).map(e=>e.isDirectory()?walk(path.join(dir,e.name)):path.join(dir,e.name)))).flat();}
 const files=await walk(root),html=files.filter(f=>f.endsWith('.html'));let links=0;
-for(const file of html){const body=await readFile(file,'utf8');assert.match(body,/<title>[^<]+<\/title>/);assert.match(body,/<html lang="zh-CN"/);assert.match(body,/name="description"/);assert.match(body,/name="viewport"/);
- for(const [,url]of body.matchAll(/(?:href|src)="([^"#]+)"/g)){
-  if(!url.startsWith('/')||url.startsWith('//'))continue;const p=url.split(/[?#]/)[0];let target=path.join(root,decodeURIComponent(p));
-  if(p.endsWith('/'))target=path.join(target,'index.html');
-  assert.ok((await stat(target).catch(()=>null))?.isFile(),`${path.relative(root,file)} has broken local link: ${url}`);links++;
- }
+for(const file of html){const body=await readFile(file,'utf8');for(const regex of [/<title>[^<]+<\/title>/,/<html lang="zh-CN"/,/name="description"/,/name="viewport"/])assert.match(body,regex);
+ for(const [,url]of body.matchAll(/(?:href|src)="([^"#]+)"/g)){if(!url.startsWith('/')||url.startsWith('//'))continue;const p=url.split(/[?#]/)[0];let target=path.join(root,decodeURIComponent(p));if(p.endsWith('/'))target=path.join(target,'index.html');assert.ok((await stat(target).catch(()=>null))?.isFile(),`${path.relative(root,file)} has broken local link: ${url}`);links++;}
+ // Validate TOC/other fragment references against their generated IDs.
+ const ids=new Set([...body.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]));for(const [,hash]of body.matchAll(/href="#([^"]+)"/g))assert.ok(ids.has(decodeURIComponent(hash)),`Broken anchor in ${file}: ${hash}`);
 }
-for(const required of ['index.html','works/index.html','articles/index.html','about/index.html','feed.xml','sitemap.xml'])assert.ok(files.includes(path.join(root,required)),`Missing ${required}`);
-const sitemap=await readFile(path.join(root,'sitemap.xml'),'utf8');
-assert.ok(!/\/(lab|notes|research|projects)\//.test(sitemap),'Retired routes must not be advertised');
-for(const page of ['index.html','works/index.html','articles/index.html','about/index.html']){
- const body=await readFile(path.join(root,page),'utf8');
- assert.ok(!/rcloneForLinux|llm_compress|CS336|轨道之间|微小的生命|回声记忆/.test(body),'Previous demonstration content must not appear as personal work');
-}
-console.log(`Verified ${html.length} HTML pages and ${links} local links/assets. New sections exist; retired material is absent from public collections.`);
-
-const home=await readFile(path.join(root,'index.html'),'utf8');
-for(const channel of ['music','games','images','video','tools'])assert.ok(files.includes(path.join(root,`collections/${channel}/index.html`)),`Missing channel route: ${channel}`);
-assert.ok(!sitemap.includes('/room/'),'Retired room routes must not be advertised');
-assert.ok(home.includes('site-header')&&home.includes('最近写下')&&home.includes('/articles/about-this-space/'),'Blog homepage must include navigation and its published opening note');
-assert.ok(files.includes(path.join(root,'search/index.html')),'Missing search page');
-const post=await readFile(path.join(root,'articles/about-this-space/index.html'),'utf8');
-assert.ok(post.includes('reading-progress')&&post.includes('article-toc'),'Article must include reading tools');
-console.log('Verified editorial blog, opening note, reading tools, search and five product categories.');
+for(const required of ['index.html','articles/index.html','articles/cs229-learning-plan/index.html','series/index.html','series/cs229/index.html','products/index.html','links/index.html','about/index.html','preferences/index.html','search/index.html','feed.xml','sitemap.xml'])assert.ok(files.includes(path.join(root,required)),`Missing ${required}`);
+const home=await readFile(path.join(root,'index.html'),'utf8');assert.ok(home.includes('最新产出')&&home.includes('/articles/cs229-learning-plan/')&&home.includes('/series/cs229/'));
+const post=await readFile(path.join(root,'articles/cs229-learning-plan/index.html'),'utf8');assert.equal((post.match(/<h3 /g)||[]).length,31,'All learning steps must be published');assert.ok(post.includes('data-view-count')&&post.includes('reading-progress')&&post.includes('article-toc'));assert.ok(post.includes('资源说明')&&post.includes('Student Solution'));
+const sitemap=await readFile(path.join(root,'sitemap.xml'),'utf8');assert.ok(!/\/(collections|room|works|lab|notes|research|projects|preferences|search)\//.test(sitemap),'Retired/utility pages must not be advertised');
+const bookmarks=await readFile(path.join(root,'links/index.html'),'utf8');assert.ok(bookmarks.includes('https://manboweb3.com/r/XASCAU'));
+const feed=await readFile(path.join(root,'feed.xml'),'utf8');assert.ok(feed.includes('/articles/cs229-learning-plan/'));
+for(const page of ['index.html','products/index.html','articles/index.html','about/index.html']){const body=await readFile(path.join(root,page),'utf8');assert.ok(!/rcloneForLinux|llm_compress|CS336|轨道之间|微小的生命|回声记忆/.test(body),'Unattributed demo work must not appear');}
+console.log(`PASS: ${html.length} HTML pages, ${links} local references, anchors, 31 CS229 steps, series, products, bookmarks, reader counter, search, RSS and sitemap.`);

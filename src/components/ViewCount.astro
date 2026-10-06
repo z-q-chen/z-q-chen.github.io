@@ -1,0 +1,9 @@
+---
+const {id}=Astro.props;
+---
+<span class="view-count" data-view-count data-path={`/articles/${id}/`} title="累计阅读次数；作者模式与 30 分钟内的重复浏览不计入。"><span aria-hidden="true">◉</span><span data-count-value>—</span><span>阅读</span></span><noscript><span class="read-status">统计需要 JavaScript</span></noscript>
+<script>
+import {startReader,COUNTER_ENDPOINT} from '../lib/views.mjs';
+const element=document.querySelector<HTMLElement>('[data-view-count]');
+if(element){let stop:(()=>void)|undefined;function mount(){let storage:Storage|null=null;try{storage=localStorage;}catch{}stop=startReader({path:element.dataset.path!,hostname:location.hostname,storage,visible:()=>document.visibilityState==='visible',request:async(method:string,path:string)=>{const response=await fetch(COUNTER_ENDPOINT,{method,credentials:'omit',headers:{'x-bsz-referer':path},referrerPolicy:'no-referrer',signal:AbortSignal.timeout(8000)});if(!response.ok)throw new Error('Counter unavailable');return response.json();},onValue:(count:number)=>{element.querySelector('[data-count-value]')!.textContent=count.toLocaleString('zh-CN');},onState:(state:string)=>{element.dataset.state=state;const titles:Record<string,string>={author:'作者模式：本浏览器不增加阅读次数。',preview:'本地预览不增加阅读次数。',unavailable:'阅读统计暂时不可用。',ready:'累计阅读次数，30 分钟内重复浏览不计入。'};element.title=titles[state]||titles.ready;if(state==='unavailable')element.querySelector('[data-count-value]')!.textContent='—';}});}mount();addEventListener('pagehide',()=>stop?.());addEventListener('pageshow',e=>{if(e.persisted)mount();});}
+</script>

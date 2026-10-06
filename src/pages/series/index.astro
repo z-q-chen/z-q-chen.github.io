@@ -1,0 +1,7 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SeriesCard from '../../components/SeriesCard.astro';
+import {published} from '../../lib/content';
+const {articles,series}=await published();
+---
+<Layout title="系列 · ECHO" active="series"><header class="page-heading"><p class="eyebrow">FOLLOW A THREAD</p><h1>系列<span class="title-dot">.</span></h1><p>让相互关联的文章，成为一条可以跟着走的路线。</p></header><div class="series-grid page-section">{series.map(group=><SeriesCard group={group} articles={articles}/>)}</div><p class="footnote">一门课程、一项长期实践，都可以成为一个系列。这里的数量是已发布文章数。</p></Layout>

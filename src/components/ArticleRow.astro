@@ -1,5 +1,5 @@
 ---
-import {readingTime,dateLabel} from '../lib/editorial';
-const {article}=Astro.props;
+import {dateLabel,readingTime} from '../lib/editorial';
+const {article,compact=false}=Astro.props;
 ---
-<a class="article-row" href={`/articles/${article.id}/`}><div class="post-meta"><span class="post-kind">{article.data.kind}</span><time datetime={article.data.date.toISOString()}>{dateLabel(article.data.date)}</time><span>约 {readingTime(article.body)} 分钟</span></div><h3>{article.data.title}<span aria-hidden="true">↗</span></h3><p>{article.data.description}</p><div class="tags">{article.data.tags.map((tag:string)=><span>#{tag}</span>)}</div></a>
+<a class:list={['article-row',{compact}]} href={`/articles/${article.id}/`}><div class="post-meta"><span class="kind">{article.data.kind}</span><time datetime={article.data.date.toISOString()}>{dateLabel(article.data.date)}</time><span>{readingTime(article.body)} 分钟</span></div><h3>{article.data.title}<span aria-hidden="true">↗</span></h3>{!compact&&<p>{article.data.description}</p>}<div class="tags">{article.data.tags.slice(0,3).map((tag:string)=><span># {tag}</span>)}</div></a>

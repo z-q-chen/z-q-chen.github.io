@@ -1,9 +1,4 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import ChannelNav from '../../components/ChannelNav.astro';
-import EditorialArt from '../../components/EditorialArt.astro';
-import WorkCard from '../../components/WorkCard.astro';
-import {getCollection} from 'astro:content';
-const works=(await getCollection('works',({data})=>!data.draft)).sort((a,b)=>Number(b.data.featured)-Number(a.data.featured)||b.data.date.valueOf()-a.data.date.valueOf());
+const target='/products/';
 ---
-<Layout title="作品 · ECHO" active="works"><header class="page-heading"><p class="eyebrow">THINGS I MAKE</p><h1>作品<span class="accent">.</span></h1><p>把想法做出来，让它可以被使用、观看和体验。</p></header><div class="page-content"><ChannelNav/>{works.length?<div class="work-grid">{works.map(work=><WorkCard work={work}/>)}</div>:<div class="empty-state work-empty"><EditorialArt small/><h2>给下一件作品，留一块地方。</h2><p>这里会收录我完成并发布的作品。</p><a class="text-link" href="/articles/">先读点文字 <span>↗</span></a></div>}</div></Layout>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="description" content="产品入口已迁移"/><title>产品 · ECHO</title><meta name="robots" content="noindex"/><meta http-equiv="refresh" content={`0;url=${target}`}/><link rel="canonical" href={new URL(target,Astro.site)}/></head><body><a href={target}>前往产品</a></body></html>
