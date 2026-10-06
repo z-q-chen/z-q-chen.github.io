@@ -1,6 +1,6 @@
 # ECHO · 学习与创造
 
-一个面向长期写作与产品发布的个人博客。Astro 静态生成，暖白底色、薄荷绿、淡紫、杏桃与奶油黄，少量原生 SVG 小插画。公开身份只使用 ECHO。
+一个面向长期写作与产品发布的个人博客。Astro 静态生成，暖白纸面、蜡笔颗粒线条、少量手绘涂画。公开身份只使用 ECHO。
 
 ## 本地使用
 
@@ -20,7 +20,7 @@ Node.js 24。开发可使用 `ASTRO_TELEMETRY_DISABLED=1 npm run dev`。文章�
 - `/products/`：每个产品直接打开独立的网站，可附制作记录与源码链接。
 - `/links/`：常用书签、自己的入口和小店。
 - `/about/`：个人介绍。
-- `/search/`：查找已发布文章、系列与产品的标题、简介、标签。
+- 页头搜索条：在当前页面实时搜索文章、系列与产品，不跳转搜索页。`/` 聚焦搜索，Esc 收起结果；旧 `/search/` 入口继续兼容。
 - `/feed.xml`：文章 RSS。
 
 草稿不会进入公开页面、搜索、RSS 和 sitemap。旧 works、collections、room、research、notes、projects、lab 地址保留跳转。
@@ -55,7 +55,7 @@ related: [cs229-learning-plan]
 
 ## 维护书签和小店
 
-编辑 `src/data/links.ts`。书签按 group 分组，支持 title、description、url、color。shop 保存用户提供的小店网址，作为外部服务入口呈现。可用颜色：purple、mint、peach、yellow。
+编辑 `src/data/links.ts`。书签按 group 分组，支持 title、可选 description、url、color；课程学习资料直接放在学习计划中。shop 保存用户提供的小店网址，作为外部服务入口呈现。可用颜色：purple、mint、peach、yellow。
 
 ## 阅读次数与排除本人
 

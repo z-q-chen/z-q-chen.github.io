@@ -10,8 +10,6 @@ featured: true
 draft: false
 ---
 
-> **资源说明**：这是一份个人自学计划，并非 Stanford 官方课程安排。Spring 2026 官方页的课程文档需要 Stanford 账号；Study Edition、Companion、作业镜像和学生 Solution 属于社区资源。以官方公开资料校对，学生答案只用于完成后的对照。本文保留原计划的学习内容与资源链接，将长表格改为分阶段步骤，方便逐项阅读。
-
 **Stanford Spring 2026 × Fall 2025 · Full-Blood Self-Study Edition**
 
 核心逻辑：

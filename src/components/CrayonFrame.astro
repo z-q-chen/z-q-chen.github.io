@@ -1,0 +1,5 @@
+---
+const {id,tone='violet'}=Astro.props;
+const filter=`crayon-${id}`;
+---
+<svg class:list={['crayon-frame',tone]} viewBox="0 0 1000 500" preserveAspectRatio="none" aria-hidden="true" focusable="false"><defs><filter id={filter} x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".78" numOctaves="3" seed="8" result="grain"/><feComposite in="SourceGraphic" in2="grain" operator="in"/></filter></defs><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" filter={`url(#${filter})`}><path d="M 11 136 Q 5 56 11 13 Q 66 7 164 12 M 834 489 Q 905 496 989 488 Q 995 426 989 365" stroke-width="5" vector-effect="non-scaling-stroke"/><path d="M 17 124 Q 12 48 17 19 L 145 17 M 850 483 Q 912 489 983 482 L 985 382" stroke-width="2" vector-effect="non-scaling-stroke" opacity=".65"/></g></svg>

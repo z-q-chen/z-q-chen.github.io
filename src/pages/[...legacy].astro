@@ -1,6 +1,6 @@
 ---
-const destinations:Record<string,string>={research:'/articles/',notes:'/articles/',projects:'/products/',lab:'/products/','lab/orbits':'/products/','lab/life':'/products/','lab/memory':'/products/','notes/a-place-to-grow':'/articles/','notes/learning-map':'/articles/','notes/rules-and-emergence':'/articles/'};
-export function getStaticPaths(){return ['research','notes','projects','lab','lab/orbits','lab/life','lab/memory','notes/a-place-to-grow','notes/learning-map','notes/rules-and-emergence'].map(legacy=>({params:{legacy}}));}
+const destinations:Record<string,string>={'articles/about-this-space':'/articles/',research:'/articles/',notes:'/articles/',projects:'/products/',lab:'/products/','lab/orbits':'/products/','lab/life':'/products/','lab/memory':'/products/','notes/a-place-to-grow':'/articles/','notes/learning-map':'/articles/','notes/rules-and-emergence':'/articles/'};
+export function getStaticPaths(){return ['articles/about-this-space','research','notes','projects','lab','lab/orbits','lab/life','lab/memory','notes/a-place-to-grow','notes/learning-map','notes/rules-and-emergence'].map(legacy=>({params:{legacy}}));}
 const destination=destinations[Astro.params.legacy!];
 ---
 <!doctype html><html lang="zh-CN"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="description" content="网站栏目已更新，请访问作品或文章。"/><meta name="robots" content="noindex,follow"/><meta http-equiv="refresh" content={`0;url=${destination}`}/><link rel="canonical" href={new URL(destination,Astro.site)}/><title>栏目已更新 · ECHO</title></head><body><p>栏目已更新，<a href={destination}>前往{destination==='/products/'?'作品':'文章'} →</a></p></body></html>

@@ -1,0 +1,27 @@
+---
+import {published} from '../lib/content';
+const {articles,series,products}=await published();
+const entries=[...articles.map(a=>({title:a.data.title,text:[a.data.title,a.data.description,...a.data.tags].join(' '),type:'文章',url:`/articles/${a.id}/`,external:false})),...series.map(s=>({title:s.data.title,text:[s.data.title,s.data.description,s.data.label].join(' '),type:'系列',url:`/series/${s.id}/`,external:false})),...products.map(p=>({title:p.data.title,text:[p.data.title,p.data.description,...p.data.tags].join(' '),type:'产品',url:p.data.url,external:true}))];
+---
+<div class="inline-search" data-inline-search>
+ <form role="search" autocomplete="off"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="m15 15 5 5"/></svg><input type="search" aria-label="搜索内容" placeholder="搜索" aria-controls="inline-results" aria-expanded="false"/><button type="button" data-search-close aria-label="关闭搜索" hidden>×</button></form>
+ <div class="search-popover" id="inline-results" hidden><p class="inline-status" role="status"></p><ul>{entries.map(entry=><li hidden data-search-text={entry.text.toLocaleLowerCase()}><a href={entry.url} target={entry.external?'_blank':undefined} rel={entry.external?'noopener noreferrer':undefined}><span class="result-type">{entry.type}</span><span>{entry.title}</span><span aria-hidden="true">↗</span></a></li>)}</ul></div>
+</div>
+<script>
+const search=document.querySelector<HTMLElement>('[data-inline-search]')!;
+const input=search.querySelector<HTMLInputElement>('input')!;
+const form=search.querySelector('form')!;
+const panel=search.querySelector<HTMLElement>('.search-popover')!;
+const close=search.querySelector<HTMLButtonElement>('[data-search-close]')!;
+const rows=[...search.querySelectorAll<HTMLElement>('[data-search-text]')];
+function hide(){panel.hidden=true;close.hidden=true;input.setAttribute('aria-expanded','false');}
+function update(){const terms=input.value.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);if(!terms.length){hide();return;}let count=0;rows.forEach(row=>{row.hidden=!terms.every(term=>row.dataset.searchText?.includes(term));if(!row.hidden)count++;});panel.hidden=false;close.hidden=false;input.setAttribute('aria-expanded','true');search.querySelector('[role=status]')!.textContent=count?`${count} 条结果`:'没有找到';}
+input.addEventListener('input',update);input.addEventListener('focus',update);
+form.addEventListener('submit',e=>{e.preventDefault();update();if(input.value.trim())rows.find(row=>!row.hidden)?.querySelector<HTMLAnchorElement>('a')?.focus();});
+close.addEventListener('click',()=>{input.value='';hide();input.focus();});
+search.addEventListener('keydown',e=>{if(e.key==='Escape'){input.focus();hide();}else if(e.key==='ArrowDown'&&e.target===input&&!panel.hidden){e.preventDefault();rows.find(row=>!row.hidden)?.querySelector<HTMLAnchorElement>('a')?.focus();}});
+document.addEventListener('pointerdown',e=>{if(!search.contains(e.target as Node))hide();});
+document.addEventListener('focusin',e=>{if(!search.contains(e.target as Node))hide();});
+document.addEventListener('keydown',e=>{const target=e.target as HTMLElement;if(e.key==='/'&&!e.metaKey&&!e.ctrlKey&&!e.altKey&&!target.closest('input,textarea,select')&&!target.isContentEditable){e.preventDefault();input.focus();}});
+const query=new URLSearchParams(location.search).get('q');if(query){input.value=query;update();}
+</script>

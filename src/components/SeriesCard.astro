@@ -1,5 +1,6 @@
 ---
 import {sequence} from '../lib/content';
+import CrayonFrame from './CrayonFrame.astro';
 const {group,articles}=Astro.props;const entries=articles.filter(a=>a.data.series===group.id).sort(sequence);
 ---
-<a class:list={['series-card',group.data.color]} href={`/series/${group.id}/`}><div class="card-top"><span class="course-label">{group.data.label}</span><span class="status">{group.data.status}</span></div><h3>{group.data.title}</h3><p>{group.data.description}</p><div class="card-bottom"><span>{entries.length} 篇已发布</span><span aria-hidden="true">↗</span></div></a>
+<a class="series-card sketch-panel" href={`/series/${group.id}/`}><CrayonFrame id={`series-${group.id}`} tone="green"/><div class="card-top"><span class="course-label">{group.data.label}</span><span class="kind">{group.data.status}</span></div><h3>{group.data.title}</h3><div class="card-bottom"><span>{entries.length} 篇</span><span aria-hidden="true">↗</span></div></a>

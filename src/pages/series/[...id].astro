@@ -2,8 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import ArticleRow from '../../components/ArticleRow.astro';
 import {published,sequence} from '../../lib/content';
-import {render} from 'astro:content';
 export async function getStaticPaths(){const {series}=await published();return series.map(group=>({params:{id:group.id},props:{group}}));}
-const {group}=Astro.props;const {articles}=await published();const entries=articles.filter(a=>a.data.series===group.id).sort(sequence);const {Content}=await render(group);
+const {group}=Astro.props;const {articles}=await published();const entries=articles.filter(a=>a.data.series===group.id).sort(sequence);
 ---
-<Layout title={`${group.data.title} · ECHO`} description={group.data.description} active="series"><div class="breadcrumb"><a href="/series/">系列</a><span>/</span><span>{group.data.label}</span></div><header class:list={['series-hero',group.data.color]}><div class="card-top"><span class="course-label">{group.data.label}</span><span class="status">{group.data.status}</span></div><h1>{group.data.title}</h1><p>{group.data.description}</p><div class="card-bottom"><span>{entries.length} 篇文章 · 按学习顺序排列</span>{entries[0]&&<a href={`/articles/${entries[0].id}/`}>从第一篇开始 ↗</a>}</div></header><div class="series-detail"><section><h2 class="section-title">系列目录</h2>{entries.map((article,i)=><div class="series-entry"><span class="entry-order">{String(i+1).padStart(2,'0')}</span><ArticleRow article={article}/></div>)}</section><aside class="series-description"><h2>关于这条路线</h2><div class="prose"><Content/></div><a class="quiet-link" href="/articles/">所有文章 →</a></aside></div></Layout>
+<Layout title={`${group.data.title} · ECHO`} description={group.data.description} active="series"><div class="breadcrumb"><a href="/series/">系列</a><span>/</span><span>{group.data.label}</span></div><header class="series-title"><h1>{group.data.title}</h1><span class="kind">{group.data.status}</span></header><section class="series-contents">{entries.map((article,i)=><div class="series-entry"><span class="entry-order">{String(i+1).padStart(2,'0')}</span><ArticleRow article={article}/></div>)}</section></Layout>
