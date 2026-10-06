@@ -1,13 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import CrayonFrame from '../components/CrayonFrame.astro';
 import ArticleRow from '../components/ArticleRow.astro';
 import ProductCard from '../components/ProductCard.astro';
 import {published} from '../lib/content';
 import {legacyEntries} from '../data/channels';
 const {articles,series,products}=await published();const lead=articles.find(a=>a.data.featured)||articles[0];
 ---
-<Layout><div class="journal-home"><section class="journal-section"><div class="section-heading"><h1>文章</h1><a href="/articles/" aria-label="所有文章">↗</a></div>{lead&&<a class="journal-feature sketch-panel" href={`/articles/${lead.id}/`}><CrayonFrame id="home-lead"/><div class="post-meta"><time datetime={lead.data.date.toISOString()}>{lead.data.date.toISOString().slice(0,10)}</time><span>{lead.data.kind}</span></div><h2><span class="crayon-underline">{lead.data.title}</span></h2><span class="journal-arrow" aria-hidden="true">↗</span></a>}{articles.filter(a=>a.id!==lead?.id).slice(0,4).map(article=><ArticleRow article={article}/>)}</section>
+<Layout><div class="journal-home"><section class="journal-section"><div class="section-heading"><h1>文章</h1><a href="/articles/" aria-label="所有文章">↗</a></div>{lead&&<ArticleRow article={lead} heading="h2"/>}{articles.filter(a=>a.id!==lead?.id).slice(0,4).map(article=><ArticleRow article={article}/>)}</section>
 {series.length>0&&<section class="journal-section"><div class="section-heading"><h2>系列</h2><a href="/series/" aria-label="所有系列">↗</a></div><div class="journal-series">{series.map(group=><a href={`/series/${group.id}/`}><span class="series-scribble" aria-hidden="true"><svg viewBox="0 0 68 40"><path d="M5 22Q18 2 28 21T52 20T63 16M7 27Q21 5 30 25T59 24"/></svg></span><h3>{group.data.title}</h3><span>{articles.filter(a=>a.data.series===group.id).length} 篇</span><span aria-hidden="true">↗</span></a>)}</div></section>}
 {products.length>0&&<section class="journal-section"><div class="section-heading"><h2>产品</h2><a href="/products/" aria-label="所有产品">↗</a></div><div class="product-grid">{products.slice(0,4).map(product=><ProductCard product={product}/>)}</div></section>}</div></Layout>
 <script define:vars={{entries:legacyEntries}}>const entry=entries.find(e=>e.id===location.hash.slice(1));if(entry)location.replace(entry.href);</script>
