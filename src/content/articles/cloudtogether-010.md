@@ -4,8 +4,8 @@ description: "没找到完全合心意的 Linux 音乐客户端，于是我给�
 date: 2026-10-08T21:00:00+08:00
 kind: 随笔
 tags: [CloudTogether, Linux, 音乐, 日常]
-draft: false
-featured: true
+draft: true
+featured: false
 ---
 
 [我做的播放器 CloudTogether →](https://z-q-chen.github.io/cloudtogether/)
