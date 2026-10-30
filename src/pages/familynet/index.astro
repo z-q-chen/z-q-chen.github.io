@@ -16,7 +16,7 @@ const size=(bytes:number)=>`${(bytes/1_000_000).toFixed(1)} MB`;
 <head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>FamilyNet — 下载与安装</title>
-<meta name="description" content="下载 FamilyNet 0.3.1：Android arm64 测试 APK、Ubuntu 安装包、Windows 和 Linux 便携版。管理机场订阅、自有 VPS 节点与分流配置。"/>
+<meta name="description" content="下载 FamilyNet：Android arm64 测试 APK、Ubuntu 安装包、Windows 和 Linux 便携版。管理机场订阅、自有 VPS 节点与分流配置。"/>
 <link rel="canonical" href={home}/><link rel="icon" href="/familynet/icon.png"/>
 <meta property="og:title" content="FamilyNet — 下载与安装"/><meta property="og:description" content="Android、Ubuntu、Windows 与 Linux 下载。"/><meta property="og:type" content="website"/><meta property="og:url" content={home}/><meta property="og:image" content={home+'desktop.png'}/><meta name="theme-color" content="#f5f5f7"/>
 </head>
@@ -25,10 +25,10 @@ const size=(bytes:number)=>`${(bytes/1_000_000).toFixed(1)} MB`;
 <header class="header"><nav class="wrap" aria-label="页面导航"><a class="brand" href={home}><img src="/familynet/icon.png" width="28" height="28" alt=""/>FamilyNet</a><div><a href="/products/">ECHO 的产品</a><a href={release.repository+'/releases/tag/v'+release.version}>发布记录 ↗</a></div></nav></header>
 <main id="main" class="wrap">
 <section class="intro">
-<div class="app-title"><img src="/familynet/icon.png" alt="" width="76" height="76"/><div><p class="version">0.3.1 · 2026.10.30</p><h1>FamilyNet</h1></div></div>
+<div class="app-title"><img src="/familynet/icon.png" alt="" width="76" height="76"/><div><p class="version">Android {release.version} · 桌面 0.3.1</p><h1>FamilyNet</h1></div></div>
 <p class="description">管理机场订阅与自有 VPS 节点。</p>
 <div class="primary-download"><a class="primary" href={android.url} data-download="android">下载 Android 测试版 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12m-5-5 5 5 5-5M5 20h14"/></svg></a><p>arm64 · {size(android.bytes)} · 开发签名</p></div>
-<p class="android-state">最低 Android 7（API 24）。手机 VPN 与后台保活尚待实测。</p>
+<p class="android-state">最低 Android 7（API 24）。0.3.1 可直接覆盖升级；手机 VPN 与后台保活尚待实测。</p>
 </section>
 <section class="downloads" id="download" aria-labelledby="downloads-title">
 <div class="section-heading"><h2 id="downloads-title">其他下载</h2><a href="/familynet/SHA256SUMS">SHA256 校验清单 ↗</a></div>
@@ -37,7 +37,7 @@ const size=(bytes:number)=>`${(bytes/1_000_000).toFixed(1)} MB`;
 </section>
 <section class="preview" aria-label="桌面界面预览"><figure><img src="/familynet/desktop.png" width="1667" height="1217" alt="FamilyNet 桌面概览，展示订阅、系统代理、TUN 与流量状态；使用示例配置" loading="lazy"/><figcaption>Ubuntu 桌面界面 · 示例配置</figcaption></figure></section>
 <section class="guide" aria-labelledby="guide-title"><h2 id="guide-title">安装后</h2><ol><li><strong>导入配置。</strong>添加机场订阅地址，或导入自己的节点配置。</li><li><strong>选择节点。</strong>在客户端选择需要使用的线路。</li><li><strong>按需启用代理。</strong>系统代理或 VPN 的权限由你确认。</li></ol><p>Android：下载 APK 后在手机中打开，按系统提示允许本次来源安装。当前为开发签名测试版。</p></section>
-<section class="notes" aria-labelledby="notes-title"><h2 id="notes-title">版本说明</h2><details><summary>现在支持什么？</summary><p>Clash/Mihomo 订阅、Base64 和标准节点链接的本地导入，节点组与分流、连接日志、本地加密备份。客户端不附带机场账号或节点。自有 VPS/CDN 的部署工具包含在源码中，目前主要通过命令行操作。</p></details><details><summary>哪些已经验证？</summary><p>Ubuntu 的实际窗口、订阅导入和本地加密链路已验证；Android 已完成编译、签名、原生库与 16 KB 对齐检查。Windows 尚未实机验收。真实机场、VPS/CDN、手机 VPN、后台保活及主机系统代理/TUN 接管仍待验收。</p></details><details><summary>联网与隐私</summary><p>订阅、节点、DNS 和规则资源按你的配置联网。辅助自动更新、IP 查询和云备份关闭。公开安装包与源码不包含用户订阅、运行数据或签名私钥。</p></details><details><summary>源码与许可</summary><p>桌面基于 Clash Party 与 Mihomo，Android 基于 FlClash，保留 GPL-3.0、版权和第三方许可。独立控制平面使用 MIT。完整对应源码是本页的 source.zip 附件，包含修改和构建脚本；GitHub 自动生成的 Source code ZIP 只包含发行索引。</p></details></section>
+<section class="notes" aria-labelledby="notes-title"><h2 id="notes-title">版本说明</h2><details><summary>现在支持什么？</summary><p>Clash/Mihomo 订阅、Base64 和标准节点链接的本地导入，节点组与分流、连接日志、本地加密备份。客户端不附带机场账号或节点。自有 VPS/CDN 的部署工具包含在源码中，目前主要通过命令行操作。</p></details><details><summary>哪些已经验证？</summary><p>Ubuntu 的实际窗口、订阅导入和本地加密链路已验证；Android 0.3.2 已修复导入通信错误，完成完整 Flutter 回归、127 项原生 JVM 测试及编译、签名、原生库与 16 KB 对齐检查。Windows 尚未实机验收。真实机场、VPS/CDN、手机 VPN、后台保活及主机系统代理/TUN 接管仍待验收。</p></details><details><summary>联网与隐私</summary><p>订阅、节点、DNS 和规则资源按你的配置联网。辅助自动更新、IP 查询和云备份关闭。公开安装包与源码不包含用户订阅、运行数据或签名私钥。</p></details><details><summary>源码与许可</summary><p>桌面基于 Clash Party 与 Mihomo，Android 基于 FlClash，保留 GPL-3.0、版权和第三方许可。独立控制平面使用 MIT。完整对应源码是本页的 source.zip 附件，包含修改和构建脚本；GitHub 自动生成的 Source code ZIP 只包含发行索引。</p></details></section>
 </main>
 <footer class="wrap"><a href="/">ECHO</a><span>FamilyNet {release.version}</span><a href={release.repository}>GitHub ↗</a></footer>
 </body>
