@@ -1,19 +1,19 @@
 {
-  "version": "0.3.5",
+  "version": "0.3.6",
   "date": "2026-11-01",
   "repository": "https://github.com/z-q-chen/FamilyNet",
   "assets": [
     {
-      "name": "FamilyNet-0.3.5-android-arm64-dev.apk",
-      "bytes": 60894791,
-      "sha256": "88d4d79b237ec9ab309eb16c2be99b3c143d86581dc93682320661c218df2c40",
-      "url": "https://github.com/z-q-chen/FamilyNet/releases/download/v0.3.5/FamilyNet-0.3.5-android-arm64-dev.apk"
+      "name": "FamilyNet-0.3.6-android-arm64-dev.apk",
+      "bytes": 60904843,
+      "sha256": "aaa687fc1401e1b49b37fceb3cd44436d621e4145711ca7581696ed49eeae57d",
+      "url": "https://github.com/z-q-chen/FamilyNet/releases/download/v0.3.6/FamilyNet-0.3.6-android-arm64-dev.apk"
     },
     {
-      "name": "FamilyNet-0.3.5-source.zip",
-      "bytes": 164371765,
-      "sha256": "4a22bf9db616b45fc9f0bd11bd41b55408e87824b38d56d43e5eff98c89f6ace",
-      "url": "https://github.com/z-q-chen/FamilyNet/releases/download/v0.3.5/FamilyNet-0.3.5-source.zip"
+      "name": "FamilyNet-0.3.6-source.zip",
+      "bytes": 164395060,
+      "sha256": "b587b006c740f5a7dae2408dae5fc1eda6ea63743a87f4c7d405af5d81b799c8",
+      "url": "https://github.com/z-q-chen/FamilyNet/releases/download/v0.3.6/FamilyNet-0.3.6-source.zip"
     },
     {
       "name": "FamilyNet-Client-0.3.5-linux-x64.tar.gz",
@@ -33,5 +33,6 @@
       "sha256": "f88d5da5af31aa5ce4b09e2fa3e6bdd25640423552a867ace7d92a7825d29478",
       "url": "https://github.com/z-q-chen/FamilyNet/releases/download/v0.3.5/FamilyNet-Desktop-0.3.5-ubuntu-amd64.deb"
     }
-  ]
+  ],
+  "desktopVersion": "0.3.5"
 }

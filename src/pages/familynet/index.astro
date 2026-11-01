@@ -25,7 +25,7 @@ const size=(bytes:number)=>`${(bytes/1_000_000).toFixed(1)} MB`;
 <header class="header"><nav class="wrap" aria-label="页面导航"><a class="brand" href={home}><img src="/familynet/icon-0.3.5.png" width="28" height="28" alt=""/>FamilyNet</a><div><a href="/products/">ECHO 的产品</a><a href={release.repository+'/releases/tag/v'+release.version}>发布记录 ↗</a></div></nav></header>
 <main id="main" class="wrap">
 <section class="intro">
-<div class="app-title"><img src="/familynet/icon-0.3.5.png" alt="" width="76" height="76"/><div><p class="version">Linux · Windows · Android {release.version}</p><h1>FamilyNet</h1></div></div>
+<div class="app-title"><img src="/familynet/icon-0.3.5.png" alt="" width="76" height="76"/><div><p class="version">Android {release.version} · Linux / Windows {release.desktopVersion}</p><h1>FamilyNet</h1></div></div>
 <p class="description">管理机场订阅与自有 VPS 节点。</p>
 <div class="primary-download"><a class="primary" href={android.url} data-download="android">下载 Android 测试版 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12m-5-5 5 5 5-5M5 20h14"/></svg></a><p>arm64 · {size(android.bytes)} · 开发签名</p></div>
 <p class="android-state">最低 Android 7（API 24）。支持覆盖升级；手机 VPN 与后台保活尚待实测。</p>
