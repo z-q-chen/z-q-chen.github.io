@@ -1,19 +1,19 @@
 {
-  "version": "3.5.0",
+  "version": "0.3.5",
   "date": "2026-11-01",
   "repository": "https://github.com/z-q-chen/FamilyNet",
   "assets": [
     {
-      "name": "FamilyNet-3.5.0-android-arm64-dev.apk",
+      "name": "FamilyNet-0.3.5-notification-fix-android-arm64-dev.apk",
       "bytes": 60884717,
-      "sha256": "f5cfbae49e0aa6464950f25ce4e6594d1c8a77a6fcc49d7330c3f4d2f6b5de8d",
-      "url": "https://github.com/z-q-chen/FamilyNet/releases/download/v3.5.0/FamilyNet-3.5.0-android-arm64-dev.apk"
+      "sha256": "b2856281bd207407a5f8273defcdc053ca4c9fef7c5b3632663b75cd3986a1bc",
+      "url": "https://github.com/z-q-chen/FamilyNet/releases/download/v0.3.5-notification-fix/FamilyNet-0.3.5-notification-fix-android-arm64-dev.apk"
     },
     {
-      "name": "FamilyNet-3.5.0-source.zip",
-      "bytes": 164406873,
-      "sha256": "ef8362032264260b1043cf6387ef257c7943b54d4569c10ae9d69878faaa7a2a",
-      "url": "https://github.com/z-q-chen/FamilyNet/releases/download/v3.5.0/FamilyNet-3.5.0-source.zip"
+      "name": "FamilyNet-0.3.5-notification-fix-source.zip",
+      "bytes": 164551362,
+      "sha256": "136ac0ae857fb8ee4e93eb644eb33967045043a1ccaa91a2201a5e11752e62af",
+      "url": "https://github.com/z-q-chen/FamilyNet/releases/download/v0.3.5-notification-fix/FamilyNet-0.3.5-notification-fix-source.zip"
     },
     {
       "name": "FamilyNet-Client-0.3.5-linux-x64.tar.gz",
@@ -34,5 +34,6 @@
       "url": "https://github.com/z-q-chen/FamilyNet/releases/download/v0.3.5/FamilyNet-Desktop-0.3.5-ubuntu-amd64.deb"
     }
   ],
-  "desktopVersion": "0.3.5"
+  "desktopVersion": "0.3.5",
+  "releaseTag": "v0.3.5-notification-fix"
 }
