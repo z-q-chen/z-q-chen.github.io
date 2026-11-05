@@ -11,6 +11,6 @@ draft: false
 
 这里不把作业当成待填写的 TODO 清单：先理解分析所要回答的问题，再推导规则、阅读框架的调用链，最后回到实现、测试和容易出错的边界。
 
-**目前从 Tai-e PA1 开始。** 第一篇讨论活跃变量分析（Live Variable Analysis）与迭代求解器（Iterative Solver）；后续内容随着实际学习再补充。
+**当前已整理两篇：** 第一篇是活跃变量分析（Live Variable Analysis）与迭代求解器（Iterative Solver）；第二篇是常量传播（Constant Propagation）的抽象值格、前向数据流方程与 Worklist 求解器。后续继续沿课程顺序讨论静态分析方法及其实现。
 
-资料：[Tai-e 官方课程与作业说明](https://tai-e.pascal-lab.net/) · [PA1](https://tai-e.pascal-lab.net/pa1.html) · [Tai-e 作业仓库](https://github.com/pascal-lab/Tai-e-assignments)
+资料：[Tai-e 官方课程与作业说明](https://tai-e.pascal-lab.net/) · [PA1](https://tai-e.pascal-lab.net/pa1.html) · [PA2](https://tai-e.pascal-lab.net/pa2.html) · [Tai-e 作业仓库](https://github.com/pascal-lab/Tai-e-assignments)
